@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
+  <link rel="stylesheet" href="nav.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SoLaskiainen</title>
@@ -207,6 +208,8 @@ async function copyTable(bodyId,header){const rows=[header]; document.querySelec
 function exportRevenueCsv(){const rows=[['Viikko / Päiväys','Päivä','Menu','Bruttohinta','Nettohinta','Suunniteltu','Myyty','Erotus','Liikevaihto alv 0']]; document.querySelectorAll('#revenueBody tr').forEach(tr=>rows.push(Array.from(tr.children).map(td=>td.innerText.trim()))); const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n'); const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='solaskiainen_myyntisimulaatio.csv'; a.click(); URL.revokeObjectURL(url);} function escapeHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 loadSample();
 </script>
+  <script src="nav.js"></script>
 </body>
 </html>
+
 
