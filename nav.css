@@ -1,0 +1,43 @@
+.app-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 24px;
+  margin-bottom:20px;
+
+  background:#ffffff;
+  border-bottom:1px solid rgba(6,57,112,.15);
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+.nav-logo{
+  font-weight:800;
+  color:#063970;
+  text-decoration:none;
+  font-size:18px;
+}
+
+.nav-right{
+  display:flex;
+  gap:10px;
+}
+
+.nav-link{
+  padding:8px 14px;
+  border-radius:10px;
+  background:#ffffff;
+  color:#063970;
+  border:1px solid rgba(6,57,112,.15);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  transition:all .15s ease;
+}
+
+.nav-link:hover{
+  background:#063970;
+  color:#ffffff;
+}
