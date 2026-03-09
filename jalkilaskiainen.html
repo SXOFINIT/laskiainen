@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jälkilaskiainen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --theme:#063970;
+      --theme2:#0c4a8a;
+      --bg:#eef4ff;
+      --card:#ffffff;
+      --text:#1c2b40;
+      --muted:#5f6f86;
+      --border:rgba(6,57,112,.12);
+      --good:#1f8a5b;
+      --bad:#c43d3d;
+      --warn:#b7791f;
+      --shadow:0 12px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1450px;margin:auto;padding:32px 24px 48px}
+    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:22px;padding:36px;box-shadow:0 20px 40px rgba(0,0,0,.15);margin-bottom:24px}
+    .hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .eyebrow{background:rgba(255,255,255,.15);color:#fff;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+    .pill{background:rgba(6,57,112,.08);color:var(--theme)}
+    h1,h2,h3{margin:0 0 10px} h1{font-size:38px;letter-spacing:-.03em} h2{font-size:24px;color:var(--theme)} h3{font-size:18px;color:var(--theme)}
+    p{margin:0;color:var(--muted);line-height:1.55}.hero p,.hero .mini-stat .label{color:rgba(255,255,255,.88)}
+    .hero-stats,.metrics{display:grid;gap:14px}.hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,820px)}.metrics{grid-template-columns:repeat(4,1fr)}
+    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .metric{background:linear-gradient(180deg,#ffffff 0%,#f9fbff 100%);border-radius:18px;padding:20px}
+    .metric.emphasis{border-color:rgba(6,57,112,.18);box-shadow:0 14px 30px rgba(6,57,112,.08)}
+    .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
+    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+    .mini-stat .value,.metric .value{font-weight:700;line-height:1.05}.mini-stat .value{font-size:24px;color:#fff}.metric .value{font-size:30px;color:var(--theme)}.metric .sub,.small{font-size:12px;color:var(--muted);line-height:1.5}
+    .card{border-radius:20px;padding:22px;margin-bottom:22px}
+    .row,.split{display:grid;gap:22px;margin-bottom:22px}.row{grid-template-columns:1fr 1fr}.split{grid-template-columns:1.15fr 1fr}
+    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+    button,.fake-btn,label.upload-btn{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:600;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18);text-decoration:none;display:inline-flex;align-items:center}
+    button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
+    input[type="text"],input[type="number"],select{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px}
+    input[type="file"]{display:none}
+    .note{margin-top:14px;padding:14px 16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);border-radius:16px;color:#fff;font-size:14px;line-height:1.55}
+    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px} th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top} tr:last-child td{border-bottom:0}
+    th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    .pos{color:var(--good);font-weight:700}.neg{color:var(--bad);font-weight:700}.warn{color:var(--warn);font-weight:700}
+    .bar-wrap{height:10px;background:#edf2f7;border-radius:999px;overflow:hidden;min-width:120px}.bar{height:100%;background:linear-gradient(90deg,var(--theme),#3a6ea5)}
+    .muted{color:var(--muted)}
+    .hidden{display:none}
+    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:980px){.row,.split{grid-template-columns:1fr}}
+    @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">Jälkilaskiainen</div>
+        <h1>Suunniteltu vs myyty</h1>
+        <p>Analysoi SoLaskiainenin myyntisimulaatiosta viety tiedosto. Lataa CSV- tai Excel-tiedosto, ja työkalu vertaa suunniteltuja ja myytyjä määriä päivä-, viikko- ja menutasolla.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="mini-stat"><div class="label">Rivejä</div><div class="value" id="topRows">0</div></div>
+        <div class="mini-stat"><div class="label">Suunniteltu</div><div class="value" id="topPlanned">0</div></div>
+        <div class="mini-stat"><div class="label">Myyty</div><div class="value" id="topSold">0</div></div>
+        <div class="mini-stat"><div class="label">Poikkeama</div><div class="value" id="topDiff">0</div></div>
+      </div>
+    </div>
+    <div class="note">Tiedoston odotetut sarakkeet: <strong>Viikko / Päiväys, Päivä, Menu, Suunniteltu, Myyty, Erotus</strong>. Työkalu osaa lukea sekä SoLaskiainenin CSV-viennin että vastaavan Excel-tiedoston ensimmäiseltä välilehdeltä.</div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="section-head"><div><h2>Lataa myyntitiedosto</h2><p>Lataa SoLaskiainenista viety CSV tai Excel, johon on päivitetty myydyt määrät.</p></div><div class="pill">CSV / XLSX</div></div>
+      <div class="buttons">
+        <label class="upload-btn" for="fileInput">Valitse tiedosto</label>
+        <input id="fileInput" type="file" accept=".csv,.xlsx,.xls" />
+        <button class="secondary" onclick="loadSampleData()">Lataa esimerkkidata</button>
+        <button class="secondary" onclick="exportSummaryCsv()">Vie yhteenveto Exceliin</button>
+        <button class="secondary" onclick="clearAll()">Tyhjennä</button>
+      </div>
+      <div class="buttons">
+        <input id="menuFilter" type="text" placeholder="Suodata menua..." oninput="renderAll()" />
+        <select id="varianceFilter" onchange="renderAll()">
+          <option value="all">Näytä kaikki</option>
+          <option value="over">Vain ylitykset</option>
+          <option value="under">Vain alitukset</option>
+          <option value="equal">Vain toteutuneet</option>
+        </select>
+      </div>
+      <div class="small" id="fileInfo" style="margin-top:12px;">Tiedostoa ei ole vielä ladattu.</div>
+    </div>
+    <div class="card">
+      <div class="section-head"><div><h2>Mitä tämä näyttää</h2><p>Jälkilaskiainen tiivistää erot suunnitellun ja toteutuneen välillä.</p></div><div class="pill">Poikkeama-analyysi</div></div>
+      <div class="metrics">
+        <div class="metric emphasis"><div class="label">Suunniteltu yhteensä</div><div class="value" id="plannedTotal">0</div><div class="sub">Kaikki ladatut rivit</div></div>
+        <div class="metric emphasis"><div class="label">Myyty yhteensä</div><div class="value" id="soldTotal">0</div><div class="sub">Kaikki ladatut rivit</div></div>
+        <div class="metric emphasis"><div class="label">Erotus</div><div class="value" id="diffTotal">0</div><div class="sub">Myyty − suunniteltu</div></div>
+        <div class="metric emphasis"><div class="label">Toteuma %</div><div class="value" id="achievementPct">0%</div><div class="sub">Myyty / suunniteltu</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><div><h2>Viikkoyhteenveto</h2><p>Yhteenveto suunnitellun ja myydyn määrän erotuksista viikkotasolla.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Viikko / Jakso</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th><th>Poikkeama</th></tr></thead>
+        <tbody id="weekBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="split">
+    <div class="card">
+      <div class="section-head"><div><h2>Päiväyhteenveto</h2><p>Ryhmiteltynä päiväkohtaisesti.</p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th></tr></thead>
+          <tbody id="dayBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-head"><div><h2>Suurimmat poikkeamat</h2><p>Menut, joissa ero suunnitellun ja myydyn välillä on suurin.</p></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Menu</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th><th>Vaikutus</th></tr></thead>
+          <tbody id="menuBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><div><h2>Rivitiedot</h2><p>Yksittäiset ladatut rivit, joista analyysi lasketaan.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th>Menu</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th></tr></thead>
+        <tbody id="detailBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+let rawRows = [];
+let normalizedRows = [];
+
+const REQUIRED_CANDIDATES = {
+  weekDate: ['Viikko / Päiväys','Viikko / Jakso','Viikko','Week / Date','Week'],
+  day: ['Päivä','Day'],
+  menu: ['Menu'],
+  planned: ['Suunniteltu','Planned qty','Planned','F-QTY'],
+  sold: ['Myyty','Actual sold qty','Sold qty','Sold'],
+  diff: ['Erotus','Diff']
+};
+
+function num(v){
+  if(v === null || v === undefined || v === '') return 0;
+  if(typeof v === 'number') return v;
+  return Number(String(v).replace(/\s/g,'').replace(',', '.')) || 0;
+}
+function fmtNum(v){ return new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v||0)); }
+function fmtPct(v){ return `${new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:1}).format(Number(v||0))}%`; }
+function cls(v){ return v > 0 ? 'pos' : v < 0 ? 'neg' : 'muted'; }
+function safe(s){ return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function achievement(planned, sold){ return planned > 0 ? (sold / planned) * 100 : 0; }
+function varianceLabel(diff){ return diff > 0 ? 'Yli suunnitelman' : diff < 0 ? 'Alle suunnitelman' : 'Suunnitelmassa'; }
+
+function getField(row, names){
+  for(const n of names){ if(Object.prototype.hasOwnProperty.call(row, n)) return row[n]; }
+  return '';
+}
+
+function normalizeRows(rows){
+  return rows.map(r => {
+    const planned = num(getField(r, REQUIRED_CANDIDATES.planned));
+    const sold = num(getField(r, REQUIRED_CANDIDATES.sold));
+    const diffRaw = getField(r, REQUIRED_CANDIDATES.diff);
+    const diff = diffRaw === '' || diffRaw === undefined ? sold - planned : num(diffRaw);
+    return {
+      weekDate: String(getField(r, REQUIRED_CANDIDATES.weekDate) || '').trim(),
+      day: String(getField(r, REQUIRED_CANDIDATES.day) || '').trim(),
+      menu: String(getField(r, REQUIRED_CANDIDATES.menu) || '').trim(),
+      planned,
+      sold,
+      diff,
+      ach: achievement(planned, sold)
+    };
+  }).filter(r => r.weekDate || r.menu || r.planned || r.sold || r.diff);
+}
+
+function filterRows(rows){
+  const menuFilter = document.getElementById('menuFilter').value.trim().toLowerCase();
+  const varianceFilter = document.getElementById('varianceFilter').value;
+  return rows.filter(r => {
+    if(menuFilter && !r.menu.toLowerCase().includes(menuFilter)) return false;
+    if(varianceFilter === 'over' && !(r.diff > 0)) return false;
+    if(varianceFilter === 'under' && !(r.diff < 0)) return false;
+    if(varianceFilter === 'equal' && !(r.diff === 0)) return false;
+    return true;
+  });
+}
+
+function aggregate(rows, keyFn){
+  const map = new Map();
+  rows.forEach(r => {
+    const key = keyFn(r);
+    if(!map.has(key)) map.set(key, { key, planned:0, sold:0, diff:0, day:'', weekDate:'', menu:'' });
+    const a = map.get(key);
+    a.planned += r.planned;
+    a.sold += r.sold;
+    a.diff += r.diff;
+    a.day = a.day || r.day;
+    a.weekDate = a.weekDate || r.weekDate;
+    a.menu = a.menu || r.menu;
+  });
+  return Array.from(map.values()).map(a => ({ ...a, ach: achievement(a.planned, a.sold) }));
+}
+
+function renderAll(){
+  const rows = filterRows(normalizedRows);
+  setSummary(rows);
+  renderWeek(rows);
+  renderDay(rows);
+  renderMenu(rows);
+  renderDetail(rows);
+}
+
+function setSummary(rows){
+  const planned = rows.reduce((s,r)=>s+r.planned,0);
+  const sold = rows.reduce((s,r)=>s+r.sold,0);
+  const diff = sold - planned;
+  const ach = achievement(planned, sold);
+  document.getElementById('plannedTotal').textContent = fmtNum(planned);
+  document.getElementById('soldTotal').textContent = fmtNum(sold);
+  document.getElementById('diffTotal').textContent = fmtNum(diff);
+  document.getElementById('diffTotal').className = `value ${cls(diff)}`;
+  document.getElementById('achievementPct').textContent = fmtPct(ach);
+  document.getElementById('topRows').textContent = fmtNum(rows.length);
+  document.getElementById('topPlanned').textContent = fmtNum(planned);
+  document.getElementById('topSold').textContent = fmtNum(sold);
+  document.getElementById('topDiff').textContent = fmtNum(diff);
+}
+
+function renderWeek(rows){
+  const body = document.getElementById('weekBody'); body.innerHTML='';
+  aggregate(rows, r => r.weekDate).forEach(r => {
+    const diff = r.sold - r.planned;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${safe(r.key)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td><td class="${cls(diff)}">${varianceLabel(diff)}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function renderDay(rows){
+  const body = document.getElementById('dayBody'); body.innerHTML='';
+  aggregate(rows, r => `${r.weekDate}__${r.day}`).forEach(r => {
+    const [weekDate, day] = r.key.split('__');
+    const diff = r.sold - r.planned;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${safe(weekDate)}</td><td>${safe(day)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function renderMenu(rows){
+  const body = document.getElementById('menuBody'); body.innerHTML='';
+  aggregate(rows, r => r.menu)
+    .map(r => ({ ...r, actualDiff: r.sold - r.planned, actualAch: achievement(r.planned, r.sold) }))
+    .sort((a,b) => Math.abs(b.actualDiff) - Math.abs(a.actualDiff))
+    .slice(0,50)
+    .forEach(r => {
+      const width = Math.min(100, Math.abs(r.actualDiff));
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${safe(r.key)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(r.actualDiff)}">${fmtNum(r.actualDiff)}</td><td>${fmtPct(r.actualAch)}</td><td><div class="bar-wrap"><div class="bar" style="width:${width}%"></div></div></td>`;
+      body.appendChild(tr);
+    });
+}
+
+function renderDetail(rows){
+  const body = document.getElementById('detailBody'); body.innerHTML='';
+  rows.forEach(r => {
+    const diff = r.sold - r.planned;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${safe(r.weekDate)}</td><td>${safe(r.day)}</td><td>${safe(r.menu)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function parseSourceRows(rows){
+  rawRows = rows;
+  normalizedRows = normalizeRows(rows);
+  document.getElementById('fileInfo').textContent = normalizedRows.length ? `Luettu ${normalizedRows.length} riviä.` : 'Tiedostosta ei löytynyt odotettuja rivejä.';
+  renderAll();
+}
+
+async function handleFile(file){
+  document.getElementById('fileInfo').textContent = `Luetaan tiedostoa: ${file.name}`;
+  const ext = file.name.toLowerCase().split('.').pop();
+  if(ext === 'csv'){
+    const text = await file.text();
+    const wb = XLSX.read(text, { type: 'string', FS: ';' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    parseSourceRows(XLSX.utils.sheet_to_json(ws, { defval: '' }));
+  } else {
+    const buffer = await file.arrayBuffer();
+    const wb = XLSX.read(buffer, { type: 'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    parseSourceRows(XLSX.utils.sheet_to_json(ws, { defval: '' }));
+  }
+}
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  const file = e.target.files && e.target.files[0];
+  if(file) handleFile(file);
+});
+
+function exportSummaryCsv(){
+  const rows = [['Viikko / Jakso','Suunniteltu','Myyty','Erotus','Toteuma %']];
+  aggregate(filterRows(normalizedRows), r => r.weekDate).forEach(r => {
+    const diff = r.sold - r.planned;
+    rows.push([r.key, r.planned, r.sold, diff, `${achievement(r.planned, r.sold).toFixed(1)}%`]);
+  });
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'jalkilaskiainen_yhteenveto.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function loadSampleData(){
+  parseSourceRows([
+    {'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Myyty':360,'Erotus':-40},
+    {'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':200,'Myyty':210,'Erotus':10},
+    {'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Myyty':390,'Erotus':-10},
+    {'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 3 Corp','Suunniteltu':200,'Myyty':230,'Erotus':30},
+    {'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':300,'Myyty':280,'Erotus':-20},
+    {'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':160,'Myyty':170,'Erotus':10}
+  ]);
+}
+
+function clearAll(){
+  rawRows = [];
+  normalizedRows = [];
+  document.getElementById('fileInput').value = '';
+  document.getElementById('menuFilter').value = '';
+  document.getElementById('varianceFilter').value = 'all';
+  document.getElementById('fileInfo').textContent = 'Tiedostoa ei ole vielä ladattu.';
+  ['weekBody','dayBody','menuBody','detailBody'].forEach(id => document.getElementById(id).innerHTML = '');
+  setSummary([]);
+}
+
+setSummary([]);
+</script>
+</body>
+</html>
