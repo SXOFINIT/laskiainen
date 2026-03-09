@@ -6,6 +6,35 @@
   <title>SoLaskiainen</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Laskiainen navigation */
+.laskiainen-nav{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.nav-btn{
+  padding:8px 14px;
+  border-radius:10px;
+  background:#ffffff;
+  color:#063970;
+  border:1px solid rgba(6,57,112,.15);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  transition:all .15s ease;
+}
+
+.nav-btn:hover{
+  background:#063970;
+  color:#ffffff;
+}
+
+.nav-btn.home{
+  background:#063970;
+  color:#ffffff;
+}
     :root { --theme:#063970; --theme2:#0c4a8a; --bg:#eef4ff; --card:#fff; --text:#1c2b40; --muted:#5f6f86; --border:rgba(6,57,112,.12); --good:#1f8a5b; --bad:#c43d3d; --shadow:0 12px 30px rgba(0,0,0,.08); }
     *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)} .wrap{max-width:1500px;margin:auto;padding:32px 24px 48px}
     .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:22px;padding:36px;box-shadow:0 20px 40px rgba(0,0,0,.15);margin-bottom:24px}
@@ -25,6 +54,12 @@
   </style>
 </head>
 <body>
+  <!-- Laskiainen Navigation -->
+<div class="laskiainen-nav">
+  <a href="index.html" class="nav-btn home">🏠 Etusivu</a>
+  <a href="laskiainenV13.html" class="nav-btn">SoLaskiainen</a>
+  <a href="jalkilaskiainen.html" class="nav-btn">Jälkilaskiainen</a>
+</div>
 <div class="wrap">
   <div class="hero">
     <div class="hero-top">
@@ -174,3 +209,4 @@ loadSample();
 </script>
 </body>
 </html>
+
