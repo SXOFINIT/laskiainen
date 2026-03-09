@@ -480,16 +480,23 @@ async function copyRevenueTable(){await copyTable('revenueBody',['Viikko / Päiv
 async function copyTable(bodyId,header){const rows=[header]; document.querySelectorAll(`#${bodyId} tr`).forEach(tr=>rows.push(Array.from(tr.children).map(td=>td.innerText.trim()))); await navigator.clipboard.writeText(rows.map(r=>r.join('\t')).join('\n'));}
 
 function buildRevenueExportRows(){
-  const rows=[];
-  const vatRate=getVatRate();
-  parsedWeeks.forEach(week=>{
-    WORKDAYS.forEach(day=>{
-      week.menus.forEach(menu=>{
-        const entry=menu.days[day]||{qty:0,cos:0,gross:0};
-        const key=soldKey(week.label,day,menu.menu);
-        const soldQty=toNumber(actualSoldMap[key] ?? '');
-        const net=netPrice(entry.gross,vatRate);
-        const turnover=entry.qty*net;
+  const rows = [];
+  const vatRate = getVatRate();
+  const selected = selectionMap();
+
+  parsedWeeks.forEach(week => {
+    WORKDAYS.forEach(day => {
+      let dayOtherSalesAdded = false;
+
+      week.menus.forEach(menu => {
+        if (!selected[menu.menu]) return;
+
+        const entry = menu.days[day] || { qty:0, cos:0, gross:0 };
+        const key = soldKey(week.label, day, menu.menu);
+        const soldQty = toNumber(actualSoldMap[key] ?? '');
+        const net = netPrice(entry.gross, vatRate);
+        const turnover = entry.qty * net;
+
         rows.push({
           'Viikko / Päiväys': `${week.label} – ${week.weekDates?.[day] || ''}`,
           'Päivä': FIN_DAYS[day],
@@ -502,9 +509,27 @@ function buildRevenueExportRows(){
           'Campaign sales': '',
           'Liikevaihto alv 0': Number(turnover.toFixed(2))
         });
+
+        dayOtherSalesAdded = true;
       });
+
+      if (dayOtherSalesAdded) {
+        rows.push({
+          'Viikko / Päiväys': `${week.label} – ${week.weekDates?.[day] || ''}`,
+          'Päivä': FIN_DAYS[day],
+          'Menu': 'Muu myynti',
+          'Bruttohinta': '',
+          'Nettohinta': '',
+          'Suunniteltu': '',
+          'Myyty': '',
+          'Retail sales': '',
+          'Campaign sales': '',
+          'Liikevaihto alv 0': ''
+        });
+      }
     });
   });
+
   return rows;
 }
 
