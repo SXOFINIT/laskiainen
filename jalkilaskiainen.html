@@ -1,407 +1,88 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <link rel="stylesheet" href="nav.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jälkilaskiainen</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
   <style>
-    /* Laskiainen navigation */
-.laskiainen-nav{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  margin-bottom:16px;
-}
-
-.nav-btn{
-  padding:8px 14px;
-  border-radius:10px;
-  background:#ffffff;
-  color:#063970;
-  border:1px solid rgba(6,57,112,.15);
-  text-decoration:none;
-  font-weight:600;
-  font-size:14px;
-  transition:all .15s ease;
-}
-
-.nav-btn:hover{
-  background:#063970;
-  color:#ffffff;
-}
-
-.nav-btn.home{
-  background:#063970;
-  color:#ffffff;
-}
-    :root {
-      --theme:#063970;
-      --theme2:#0c4a8a;
-      --bg:#eef4ff;
-      --card:#ffffff;
-      --text:#1c2b40;
-      --muted:#5f6f86;
-      --border:rgba(6,57,112,.12);
-      --good:#1f8a5b;
-      --bad:#c43d3d;
-      --warn:#b7791f;
-      --shadow:0 12px 30px rgba(0,0,0,.08);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:1450px;margin:auto;padding:32px 24px 48px}
-    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:22px;padding:36px;box-shadow:0 20px 40px rgba(0,0,0,.15);margin-bottom:24px}
-    .hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:700}
-    .eyebrow{background:rgba(255,255,255,.15);color:#fff;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
-    .pill{background:rgba(6,57,112,.08);color:var(--theme)}
-    h1,h2,h3{margin:0 0 10px} h1{font-size:38px;letter-spacing:-.03em} h2{font-size:24px;color:var(--theme)} h3{font-size:18px;color:var(--theme)}
-    p{margin:0;color:var(--muted);line-height:1.55}.hero p,.hero .mini-stat .label{color:rgba(255,255,255,.88)}
-    .hero-stats,.metrics{display:grid;gap:14px}.hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,820px)}.metrics{grid-template-columns:repeat(4,1fr)}
-    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
-    .metric{background:linear-gradient(180deg,#ffffff 0%,#f9fbff 100%);border-radius:18px;padding:20px}
-    .metric.emphasis{border-color:rgba(6,57,112,.18);box-shadow:0 14px 30px rgba(6,57,112,.08)}
-    .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
-    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
-    .mini-stat .value,.metric .value{font-weight:700;line-height:1.05}.mini-stat .value{font-size:24px;color:#fff}.metric .value{font-size:30px;color:var(--theme)}.metric .sub,.small{font-size:12px;color:var(--muted);line-height:1.5}
-    .card{border-radius:20px;padding:22px;margin-bottom:22px}
-    .row,.split{display:grid;gap:22px;margin-bottom:22px}.row{grid-template-columns:1fr 1fr}.split{grid-template-columns:1.15fr 1fr}
-    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-    button,.fake-btn,label.upload-btn{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:600;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18);text-decoration:none;display:inline-flex;align-items:center}
-    button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
-    input[type="text"],input[type="number"],select{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px}
-    input[type="file"]{display:none}
-    .note{margin-top:14px;padding:14px 16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);border-radius:16px;color:#fff;font-size:14px;line-height:1.55}
-    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff}
-    table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px} th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top} tr:last-child td{border-bottom:0}
-    th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
-    .pos{color:var(--good);font-weight:700}.neg{color:var(--bad);font-weight:700}.warn{color:var(--warn);font-weight:700}
+    :root{--theme:#063970;--theme2:#0c4a8a;--bg:#eef4ff;--card:#ffffff;--text:#1c2b40;--muted:#5f6f86;--border:rgba(6,57,112,.12);--good:#1f8a5b;--bad:#c43d3d;--shadow:0 12px 30px rgba(0,0,0,.08);--shadow-soft:0 10px 24px rgba(6,57,112,.06)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)} .wrap{max-width:1450px;margin:auto;padding:24px 20px 40px}
+    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}.brand{font-weight:800;color:var(--theme);font-size:20px}.navlinks{display:flex;gap:10px;flex-wrap:wrap}.navlinks a{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--theme);text-decoration:none;font-weight:700;box-shadow:var(--shadow-soft)}
+    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(6,57,112,.18);margin-bottom:20px}.hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}.eyebrow{background:rgba(255,255,255,.14);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}.pill{background:rgba(6,57,112,.08);color:var(--theme)}
+    h1,h2,h3{margin:0 0 10px} h1{font-size:40px;letter-spacing:-.03em} h2{font-size:24px;color:var(--theme)} h3{font-size:18px;color:var(--theme)} p{margin:0;color:var(--muted);line-height:1.55}.hero p,.hero .mini-stat .label{color:rgba(255,255,255,.9)}
+    .hero-stats,.metrics{display:grid;gap:14px}.hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,860px)}.metrics{grid-template-columns:repeat(4,1fr)}
+    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)} .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
+    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}.mini-stat .value,.metric .value{font-weight:800;line-height:1.05}.mini-stat .value{font-size:24px;color:#fff}.metric{border-radius:18px;padding:20px;background:linear-gradient(180deg,#fff 0%,#f9fbff 100%)}.metric .value{font-size:30px;color:var(--theme)}.metric .sub,.small{font-size:12px;color:var(--muted);line-height:1.5}.metric.emphasis{border-color:rgba(6,57,112,.18);box-shadow:0 14px 30px rgba(6,57,112,.08)}
+    .card{border-radius:20px;padding:22px;margin-bottom:20px}.row,.split{display:grid;gap:20px;margin-bottom:20px}.row{grid-template-columns:1fr 1fr}.split{grid-template-columns:1.15fr 1fr}
+    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px} button,label.upload-btn{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18);display:inline-flex;align-items:center} button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
+    input[type="text"],select{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px} input[type="file"]{display:none}
+    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff} table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px} th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top} tr:last-child td{border-bottom:0} th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    .pos{color:var(--good);font-weight:700}.neg{color:var(--bad);font-weight:700}.muted{color:var(--muted)} .best-day{background:rgba(31,138,91,.08)} .worst-day{background:rgba(196,61,61,.08)}
     .bar-wrap{height:10px;background:#edf2f7;border-radius:999px;overflow:hidden;min-width:120px}.bar{height:100%;background:linear-gradient(90deg,var(--theme),#3a6ea5)}
-    .muted{color:var(--muted)}
-    .hidden{display:none}
-    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:980px){.row,.split{grid-template-columns:1fr}}
-    @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}}
+    .chart-wrap{background:linear-gradient(180deg,#fff 0%,#f9fbff 100%);border:1px solid var(--border);border-radius:18px;padding:18px}.chart-area{display:flex;align-items:flex-end;gap:14px;overflow:auto;padding-top:10px;min-height:320px}.day-col{min-width:120px;display:flex;flex-direction:column;align-items:center;gap:8px}.stack{height:220px;width:64px;border-radius:14px;overflow:hidden;display:flex;flex-direction:column-reverse;background:#edf2f7;box-shadow:inset 0 0 0 1px rgba(6,57,112,.08)}
+    .seg-total{background:#3f7ac0}.seg-retail{background:#7fb3ff}.seg-campaign{background:#9ad9c8}.stack-label{font-size:12px;color:var(--muted);text-align:center;line-height:1.35}.stack-value{font-weight:800;color:var(--theme)} .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--muted)} .legend span{display:inline-flex;align-items:center;gap:8px}.dot{width:12px;height:12px;border-radius:999px;display:inline-block}
+    .callout-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.callout{border-radius:18px;padding:18px;background:#fff;border:1px solid var(--border);box-shadow:var(--shadow-soft)}.callout.best{background:linear-gradient(180deg,rgba(31,138,91,.08),#fff)}.callout.worst{background:linear-gradient(180deg,rgba(196,61,61,.08),#fff)}
+    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}} @media (max-width:980px){.row,.split,.callout-grid{grid-template-columns:1fr}} @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}.day-col{min-width:98px}.stack{width:56px}}
   </style>
 </head>
 <body>
-  <!-- Laskiainen Navigation -->
-<div class="laskiainen-nav">
-  <a href="index.html" class="nav-btn home">🏠 Etusivu</a>
-  <a href="laskiainenV13.html" class="nav-btn">SoLaskiainen</a>
-  <a href="jalkilaskiainen.html" class="nav-btn">Jälkilaskiainen</a>
-</div>
 <div class="wrap">
-  <div class="hero">
-    <div class="hero-top">
-      <div>
-        <div class="eyebrow">Jälkilaskiainen</div>
-        <h1>Suunniteltu vs myyty</h1>
-        <p>Analysoi SoLaskiainenin myyntisimulaatiosta viety tiedosto. Lataa CSV- tai Excel-tiedosto, ja työkalu vertaa suunniteltuja ja myytyjä määriä päivä-, viikko- ja menutasolla.</p>
-      </div>
-      <div class="hero-stats">
-        <div class="mini-stat"><div class="label">Rivejä</div><div class="value" id="topRows">0</div></div>
-        <div class="mini-stat"><div class="label">Suunniteltu</div><div class="value" id="topPlanned">0</div></div>
-        <div class="mini-stat"><div class="label">Myyty</div><div class="value" id="topSold">0</div></div>
-        <div class="mini-stat"><div class="label">Poikkeama</div><div class="value" id="topDiff">0</div></div>
-      </div>
-    </div>
-    <div class="note">Tiedoston odotetut sarakkeet: <strong>Viikko / Päiväys, Päivä, Menu, Suunniteltu, Myyty, Erotus</strong>. Työkalu osaa lukea sekä SoLaskiainenin CSV-viennin että vastaavan Excel-tiedoston ensimmäiseltä välilehdeltä.</div>
-  </div>
+  <div class="topnav"><div class="brand">Jälkilaskiainen</div><div class="navlinks"><a href="index.html">🏠 Etusivu</a><a href="laskiainenV13.html">SoLaskiainen</a></div></div>
+  <div class="hero"><div class="hero-top"><div><div class="eyebrow">Jälkilaskiainen</div><h1>Suunniteltu vs toteuma</h1><p>Lue SoLaskiainenista viety uusi Excel-tiedosto, jossa on sarakkeet Lounasmyynti, Retail sales ja Campaign sales. Työkalu laskee toteuman automaattisesti ja näyttää poikkeamat viikko-, päivä- ja menutasolla.</p></div><div class="hero-stats"><div class="mini-stat"><div class="label">Rivejä</div><div class="value" id="topRows">0</div></div><div class="mini-stat"><div class="label">Suunniteltu</div><div class="value" id="topPlanned">0</div></div><div class="mini-stat"><div class="label">Toteuma</div><div class="value" id="topSold">0</div></div><div class="mini-stat"><div class="label">Poikkeama</div><div class="value" id="topDiff">0</div></div></div></div><div class="note">Toteuma lasketaan ensisijaisesti: <strong>Retail sales + Campaign sales</strong>. Jos nämä puuttuvat, käytetään saraketta <strong>Lounasmyynti</strong>. Voit vaihtaa näkymän kappaleista euroihin valitsimella.</div></div>
 
   <div class="row">
-    <div class="card">
-      <div class="section-head"><div><h2>Lataa myyntitiedosto</h2><p>Lataa SoLaskiainenista viety CSV tai Excel, johon on päivitetty myydyt määrät.</p></div><div class="pill">CSV / XLSX</div></div>
-      <div class="buttons">
-        <label class="upload-btn" for="fileInput">Valitse tiedosto</label>
-        <input id="fileInput" type="file" accept=".csv,.xlsx,.xls" />
-        <button class="secondary" onclick="loadSampleData()">Lataa esimerkkidata</button>
-        <button class="secondary" onclick="exportSummaryCsv()">Vie yhteenveto Exceliin</button>
-        <button class="secondary" onclick="clearAll()">Tyhjennä</button>
-      </div>
-      <div class="buttons">
-        <input id="menuFilter" type="text" placeholder="Suodata menua..." oninput="renderAll()" />
-        <select id="varianceFilter" onchange="renderAll()">
-          <option value="all">Näytä kaikki</option>
-          <option value="over">Vain ylitykset</option>
-          <option value="under">Vain alitukset</option>
-          <option value="equal">Vain toteutuneet</option>
-        </select>
-      </div>
-      <div class="small" id="fileInfo" style="margin-top:12px;">Tiedostoa ei ole vielä ladattu.</div>
-    </div>
-    <div class="card">
-      <div class="section-head"><div><h2>Mitä tämä näyttää</h2><p>Jälkilaskiainen tiivistää erot suunnitellun ja toteutuneen välillä.</p></div><div class="pill">Poikkeama-analyysi</div></div>
-      <div class="metrics">
-        <div class="metric emphasis"><div class="label">Suunniteltu yhteensä</div><div class="value" id="plannedTotal">0</div><div class="sub">Kaikki ladatut rivit</div></div>
-        <div class="metric emphasis"><div class="label">Myyty yhteensä</div><div class="value" id="soldTotal">0</div><div class="sub">Kaikki ladatut rivit</div></div>
-        <div class="metric emphasis"><div class="label">Erotus</div><div class="value" id="diffTotal">0</div><div class="sub">Myyty − suunniteltu</div></div>
-        <div class="metric emphasis"><div class="label">Toteuma %</div><div class="value" id="achievementPct">0%</div><div class="sub">Myyty / suunniteltu</div></div>
-      </div>
-    </div>
+    <div class="card"><div class="section-head"><div><h2>Lataa myyntitiedosto</h2><p>Lataa SoLaskiainenista viety uusi Excel- tai CSV-tiedosto.</p></div><div class="pill">CSV / XLSX</div></div><div class="buttons"><label class="upload-btn" for="fileInput">Valitse tiedosto</label><input id="fileInput" type="file" accept=".csv,.xlsx,.xls" /><button class="secondary" onclick="loadSampleData()">Lataa esimerkkidata</button><button class="secondary" onclick="exportSummaryCsv()">Vie yhteenveto Exceliin</button><button class="secondary" onclick="clearAll()">Tyhjennä</button></div><div class="buttons"><input id="menuFilter" type="text" placeholder="Suodata menua..." oninput="renderAll()" /><select id="varianceFilter" onchange="renderAll()"><option value="all">Näytä kaikki</option><option value="over">Vain ylitykset</option><option value="under">Vain alitukset</option><option value="equal">Vain toteutuneet</option></select><select id="viewMode" onchange="renderAll()"><option value="units">Kappalenäkymä</option><option value="euros">Euronäkymä</option></select></div><div class="small" id="fileInfo" style="margin-top:12px;">Tiedostoa ei ole vielä ladattu.</div></div>
+    <div class="card"><div class="section-head"><div><h2>Poikkeama-analyysi</h2><p>Yhteenveto suunnitellun ja toteutuneen määrän erotuksista.</p></div><div class="pill">Toteuma</div></div><div class="metrics"><div class="metric emphasis"><div class="label">Suunniteltu yhteensä</div><div class="value" id="plannedTotal">0</div><div class="sub">Kaikki ladatut rivit</div></div><div class="metric emphasis"><div class="label">Toteuma yhteensä</div><div class="value" id="soldTotal">0</div><div class="sub">Retail + Campaign tai Lounasmyynti</div></div><div class="metric emphasis"><div class="label">Erotus</div><div class="value" id="diffTotal">0</div><div class="sub">Toteuma − suunniteltu</div></div><div class="metric emphasis"><div class="label">Toteuma %</div><div class="value" id="achievementPct">0%</div><div class="sub">Toteuma / suunniteltu</div></div></div></div>
   </div>
 
-  <div class="card">
-    <div class="section-head"><div><h2>Viikkoyhteenveto</h2><p>Yhteenveto suunnitellun ja myydyn määrän erotuksista viikkotasolla.</p></div></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Viikko / Jakso</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th><th>Poikkeama</th></tr></thead>
-        <tbody id="weekBody"></tbody>
-      </table>
-    </div>
-  </div>
+  <div class="card"><div class="section-head"><div><h2>Päivämyynnit ja jakauma</h2><p>Graafinen näkymä päivän euro-myynteihin sekä niiden jakautumiseen lounas-, retail- ja campaign-myynteihin.</p></div><div class="pill">Myyntigraafi €</div></div><div class="chart-wrap"><div id="salesChart" class="chart-area"></div><div class="legend"><span><i class="dot seg-total"></i> Lounasmyynti €</span><span><i class="dot seg-retail"></i> Retail sales €</span><span><i class="dot seg-campaign"></i> Campaign sales €</span></div><div class="callout-grid"><div class="callout best"><div class="small">Paras päivä</div><h3 id="bestDayTitle">—</h3><p id="bestDayText">Ei vielä dataa.</p></div><div class="callout worst"><div class="small">Heikoin päivä</div><h3 id="worstDayTitle">—</h3><p id="worstDayText">Ei vielä dataa.</p></div></div></div></div>
+
+  <div class="card"><div class="section-head"><div><h2>Viikkoyhteenveto</h2><p>Ero lasketaan aina vain <strong>Suunniteltu vs Toteuma</strong>. Retail ja Campaign näkyvät mukana kokonaismyynnissä euroina, mutta niitä ei verrata erillisinä suunnitelmaan.</p></div></div><div class="table-wrap"><table><thead><tr><th>Viikko / Jakso</th><th id="weekPlannedHdr">Suunniteltu kpl</th><th id="weekActualHdr">Toteuma kpl</th><th id="weekDiffHdr">Erotus kpl</th><th>Toteuma %</th><th>Retail €</th><th>Campaign €</th><th>Kokonaismyynti €</th><th>Poikkeama</th></tr></thead><tbody id="weekBody"></tbody></table></div></div>
 
   <div class="split">
-    <div class="card">
-      <div class="section-head"><div><h2>Päiväyhteenveto</h2><p>Ryhmiteltynä päiväkohtaisesti.</p></div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th></tr></thead>
-          <tbody id="dayBody"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="card">
-      <div class="section-head"><div><h2>Suurimmat poikkeamat</h2><p>Menut, joissa ero suunnitellun ja myydyn välillä on suurin.</p></div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Menu</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th><th>Vaikutus</th></tr></thead>
-          <tbody id="menuBody"></tbody>
-        </table>
-      </div>
-    </div>
+    <div class="card"><div class="section-head"><div><h2>Päiväyhteenveto</h2><p>Paras ja heikoin päivä korostetaan. Päivätaulussa näkyvät myös eurotiedot.</p></div></div><div class="table-wrap"><table><thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th id="dayPlannedHdr">Suunniteltu kpl</th><th id="dayActualHdr">Toteuma kpl</th><th id="dayDiffHdr">Erotus kpl</th><th>Toteuma %</th><th>Retail €</th><th>Campaign €</th><th>Kokonaismyynti €</th></tr></thead><tbody id="dayBody"></tbody></table></div></div>
+    <div class="card"><div class="section-head"><div><h2>Suurimmat poikkeamat</h2><p>Menut, joissa ero suunnitellun ja toteutuneen välillä on suurin.</p></div></div><div class="table-wrap"><table><thead><tr><th>Menu</th><th id="menuPlannedHdr">Suunniteltu kpl</th><th id="menuActualHdr">Toteuma kpl</th><th id="menuDiffHdr">Erotus kpl</th><th>Toteuma %</th><th>Retail €</th><th>Campaign €</th><th>Kokonaismyynti €</th><th>Vaikutus</th></tr></thead><tbody id="menuBody"></tbody></table></div></div>
   </div>
 
-  <div class="card">
-    <div class="section-head"><div><h2>Rivitiedot</h2><p>Yksittäiset ladatut rivit, joista analyysi lasketaan.</p></div></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th>Menu</th><th>Suunniteltu</th><th>Myyty</th><th>Erotus</th><th>Toteuma %</th></tr></thead>
-        <tbody id="detailBody"></tbody>
-      </table>
-    </div>
-  </div>
+  <div class="card"><div class="section-head"><div><h2>Rivitiedot</h2><p>Yksittäiset ladatut rivit, joista analyysi lasketaan.</p></div></div><div class="table-wrap"><table><thead><tr><th>Viikko / Päiväys</th><th>Päivä</th><th>Menu</th><th id="detailPlannedHdr">Suunniteltu kpl</th><th id="detailSoldHdr">Lounasmyynti kpl</th><th>Retail €</th><th>Campaign €</th><th id="detailActualHdr">Toteuma kpl</th><th id="detailDiffHdr">Erotus kpl</th><th>Toteuma %</th></tr></thead><tbody id="detailBody"></tbody></table></div></div>
 </div>
-
 <script>
-let rawRows = [];
-let normalizedRows = [];
-
-const REQUIRED_CANDIDATES = {
-  weekDate: ['Viikko / Päiväys','Viikko / Jakso','Viikko','Week / Date','Week'],
-  day: ['Päivä','Day'],
-  menu: ['Menu'],
-  planned: ['Suunniteltu','Planned qty','Planned','F-QTY'],
-  sold: ['Myyty','Actual sold qty','Sold qty','Sold'],
-  diff: ['Erotus','Diff']
-};
-
-function num(v){
-  if(v === null || v === undefined || v === '') return 0;
-  if(typeof v === 'number') return v;
-  return Number(String(v).replace(/\s/g,'').replace(',', '.')) || 0;
-}
-function fmtNum(v){ return new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v||0)); }
-function fmtPct(v){ return `${new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:1}).format(Number(v||0))}%`; }
-function cls(v){ return v > 0 ? 'pos' : v < 0 ? 'neg' : 'muted'; }
-function safe(s){ return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-function achievement(planned, sold){ return planned > 0 ? (sold / planned) * 100 : 0; }
-function varianceLabel(diff){ return diff > 0 ? 'Yli suunnitelman' : diff < 0 ? 'Alle suunnitelman' : 'Suunnitelmassa'; }
-
-function getField(row, names){
-  for(const n of names){ if(Object.prototype.hasOwnProperty.call(row, n)) return row[n]; }
-  return '';
-}
-
-function normalizeRows(rows){
-  return rows.map(r => {
-    const planned = num(getField(r, REQUIRED_CANDIDATES.planned));
-    const sold = num(getField(r, REQUIRED_CANDIDATES.sold));
-    const diffRaw = getField(r, REQUIRED_CANDIDATES.diff);
-    const diff = diffRaw === '' || diffRaw === undefined ? sold - planned : num(diffRaw);
-    return {
-      weekDate: String(getField(r, REQUIRED_CANDIDATES.weekDate) || '').trim(),
-      day: String(getField(r, REQUIRED_CANDIDATES.day) || '').trim(),
-      menu: String(getField(r, REQUIRED_CANDIDATES.menu) || '').trim(),
-      planned,
-      sold,
-      diff,
-      ach: achievement(planned, sold)
-    };
-  }).filter(r => r.weekDate || r.menu || r.planned || r.sold || r.diff);
-}
-
-function filterRows(rows){
-  const menuFilter = document.getElementById('menuFilter').value.trim().toLowerCase();
-  const varianceFilter = document.getElementById('varianceFilter').value;
-  return rows.filter(r => {
-    if(menuFilter && !r.menu.toLowerCase().includes(menuFilter)) return false;
-    if(varianceFilter === 'over' && !(r.diff > 0)) return false;
-    if(varianceFilter === 'under' && !(r.diff < 0)) return false;
-    if(varianceFilter === 'equal' && !(r.diff === 0)) return false;
-    return true;
-  });
-}
-
-function aggregate(rows, keyFn){
-  const map = new Map();
-  rows.forEach(r => {
-    const key = keyFn(r);
-    if(!map.has(key)) map.set(key, { key, planned:0, sold:0, diff:0, day:'', weekDate:'', menu:'' });
-    const a = map.get(key);
-    a.planned += r.planned;
-    a.sold += r.sold;
-    a.diff += r.diff;
-    a.day = a.day || r.day;
-    a.weekDate = a.weekDate || r.weekDate;
-    a.menu = a.menu || r.menu;
-  });
-  return Array.from(map.values()).map(a => ({ ...a, ach: achievement(a.planned, a.sold) }));
-}
-
-function renderAll(){
-  const rows = filterRows(normalizedRows);
-  setSummary(rows);
-  renderWeek(rows);
-  renderDay(rows);
-  renderMenu(rows);
-  renderDetail(rows);
-}
-
-function setSummary(rows){
-  const planned = rows.reduce((s,r)=>s+r.planned,0);
-  const sold = rows.reduce((s,r)=>s+r.sold,0);
-  const diff = sold - planned;
-  const ach = achievement(planned, sold);
-  document.getElementById('plannedTotal').textContent = fmtNum(planned);
-  document.getElementById('soldTotal').textContent = fmtNum(sold);
-  document.getElementById('diffTotal').textContent = fmtNum(diff);
-  document.getElementById('diffTotal').className = `value ${cls(diff)}`;
-  document.getElementById('achievementPct').textContent = fmtPct(ach);
-  document.getElementById('topRows').textContent = fmtNum(rows.length);
-  document.getElementById('topPlanned').textContent = fmtNum(planned);
-  document.getElementById('topSold').textContent = fmtNum(sold);
-  document.getElementById('topDiff').textContent = fmtNum(diff);
-}
-
-function renderWeek(rows){
-  const body = document.getElementById('weekBody'); body.innerHTML='';
-  aggregate(rows, r => r.weekDate).forEach(r => {
-    const diff = r.sold - r.planned;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${safe(r.key)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td><td class="${cls(diff)}">${varianceLabel(diff)}</td>`;
-    body.appendChild(tr);
-  });
-}
-
-function renderDay(rows){
-  const body = document.getElementById('dayBody'); body.innerHTML='';
-  aggregate(rows, r => `${r.weekDate}__${r.day}`).forEach(r => {
-    const [weekDate, day] = r.key.split('__');
-    const diff = r.sold - r.planned;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${safe(weekDate)}</td><td>${safe(day)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td>`;
-    body.appendChild(tr);
-  });
-}
-
-function renderMenu(rows){
-  const body = document.getElementById('menuBody'); body.innerHTML='';
-  aggregate(rows, r => r.menu)
-    .map(r => ({ ...r, actualDiff: r.sold - r.planned, actualAch: achievement(r.planned, r.sold) }))
-    .sort((a,b) => Math.abs(b.actualDiff) - Math.abs(a.actualDiff))
-    .slice(0,50)
-    .forEach(r => {
-      const width = Math.min(100, Math.abs(r.actualDiff));
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${safe(r.key)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(r.actualDiff)}">${fmtNum(r.actualDiff)}</td><td>${fmtPct(r.actualAch)}</td><td><div class="bar-wrap"><div class="bar" style="width:${width}%"></div></div></td>`;
-      body.appendChild(tr);
-    });
-}
-
-function renderDetail(rows){
-  const body = document.getElementById('detailBody'); body.innerHTML='';
-  rows.forEach(r => {
-    const diff = r.sold - r.planned;
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${safe(r.weekDate)}</td><td>${safe(r.day)}</td><td>${safe(r.menu)}</td><td>${fmtNum(r.planned)}</td><td>${fmtNum(r.sold)}</td><td class="${cls(diff)}">${fmtNum(diff)}</td><td>${fmtPct(achievement(r.planned, r.sold))}</td>`;
-    body.appendChild(tr);
-  });
-}
-
-function parseSourceRows(rows){
-  rawRows = rows;
-  normalizedRows = normalizeRows(rows);
-  document.getElementById('fileInfo').textContent = normalizedRows.length ? `Luettu ${normalizedRows.length} riviä.` : 'Tiedostosta ei löytynyt odotettuja rivejä.';
-  renderAll();
-}
-
-async function handleFile(file){
-  document.getElementById('fileInfo').textContent = `Luetaan tiedostoa: ${file.name}`;
-  const ext = file.name.toLowerCase().split('.').pop();
-  if(ext === 'csv'){
-    const text = await file.text();
-    const wb = XLSX.read(text, { type: 'string', FS: ';' });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    parseSourceRows(XLSX.utils.sheet_to_json(ws, { defval: '' }));
-  } else {
-    const buffer = await file.arrayBuffer();
-    const wb = XLSX.read(buffer, { type: 'array' });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    parseSourceRows(XLSX.utils.sheet_to_json(ws, { defval: '' }));
-  }
-}
-
-document.getElementById('fileInput').addEventListener('change', e => {
-  const file = e.target.files && e.target.files[0];
-  if(file) handleFile(file);
-});
-
-function exportSummaryCsv(){
-  const rows = [['Viikko / Jakso','Suunniteltu','Myyty','Erotus','Toteuma %']];
-  aggregate(filterRows(normalizedRows), r => r.weekDate).forEach(r => {
-    const diff = r.sold - r.planned;
-    rows.push([r.key, r.planned, r.sold, diff, `${achievement(r.planned, r.sold).toFixed(1)}%`]);
-  });
-  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n');
-  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'jalkilaskiainen_yhteenveto.csv';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function loadSampleData(){
-  parseSourceRows([
-    {'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Myyty':360,'Erotus':-40},
-    {'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':200,'Myyty':210,'Erotus':10},
-    {'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Myyty':390,'Erotus':-10},
-    {'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 3 Corp','Suunniteltu':200,'Myyty':230,'Erotus':30},
-    {'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':300,'Myyty':280,'Erotus':-20},
-    {'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':160,'Myyty':170,'Erotus':10}
-  ]);
-}
-
-function clearAll(){
-  rawRows = [];
-  normalizedRows = [];
-  document.getElementById('fileInput').value = '';
-  document.getElementById('menuFilter').value = '';
-  document.getElementById('varianceFilter').value = 'all';
-  document.getElementById('fileInfo').textContent = 'Tiedostoa ei ole vielä ladattu.';
-  ['weekBody','dayBody','menuBody','detailBody'].forEach(id => document.getElementById(id).innerHTML = '');
-  setSummary([]);
-}
-
-setSummary([]);
+let rawRows=[]; let normalizedRows=[];
+const REQUIRED_CANDIDATES={weekDate:['Viikko / Päiväys','Viikko / Jakso','Viikko','Week / Date','Week'],day:['Päivä','Day'],menu:['Menu'],planned:['Suunniteltu','Planned qty','Planned','F-QTY'],sold:['Lounasmyynti','Myyty','Actual sold qty','Sold qty','Sold'],retail:['Retail sales','Retail','Retail qty'],campaign:['Campaign sales','Campaign','Campaign qty'],netSales:['Liikevaihto alv 0','Net sales','Turnover net']};
+function num(v){if(v===null||v===undefined||v==='') return 0; if(typeof v==='number') return v; return Number(String(v).replace(/\s/g,'').replace(',','.'))||0;}
+function fmtNum(v){return new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v||0));}
+function fmtMoney(v){return new Intl.NumberFormat('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v||0));}
+function fmtPct(v){return `${new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:1}).format(Number(v||0))}%`;}
+function cls(v){return v>0?'pos':v<0?'neg':'muted';}
+function safe(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function achievement(planned,sold){return planned>0?(sold/planned)*100:0;}
+function varianceLabel(diff){return diff>0?'Yli suunnitelman':diff<0?'Alle suunnitelman':'Suunnitelmassa';}
+function getField(row,names){for(const n of names){if(Object.prototype.hasOwnProperty.call(row,n)) return row[n];} return '';}
+function viewMode(){return document.getElementById('viewMode')?.value || 'units';}
+function plannedEuro(){return 0;}
+function normalizeRows(rows){return rows.map(r=>{const planned=num(getField(r,REQUIRED_CANDIDATES.planned)); const lunchSold=num(getField(r,REQUIRED_CANDIDATES.sold)); const retailEuro=num(getField(r,REQUIRED_CANDIDATES.retail)); const campaignEuro=num(getField(r,REQUIRED_CANDIDATES.campaign)); const netSales=num(getField(r,REQUIRED_CANDIDATES.netSales)); const actual=(retailEuro||campaignEuro)?lunchSold:lunchSold; const lunchEuro=(retailEuro||campaignEuro)?Math.max(0,netSales-retailEuro-campaignEuro):netSales; const totalEuro=(retailEuro||campaignEuro)?(lunchEuro+retailEuro+campaignEuro):netSales; return {weekDate:String(getField(r,REQUIRED_CANDIDATES.weekDate)||'').trim(),day:String(getField(r,REQUIRED_CANDIDATES.day)||'').trim(),menu:String(getField(r,REQUIRED_CANDIDATES.menu)||'').trim(),planned,lunchSold,retailEuro,campaignEuro,lunchEuro,totalEuro,actual,diff:actual-planned,ach:achievement(planned,actual)};}).filter(r=>r.weekDate||r.menu||r.planned||r.lunchSold||r.retailEuro||r.campaignEuro||r.totalEuro||r.actual||r.diff);}
+function filterRows(rows){const menuFilter=document.getElementById('menuFilter').value.trim().toLowerCase(); const varianceFilter=document.getElementById('varianceFilter').value; return rows.filter(r=>{if(menuFilter&&!r.menu.toLowerCase().includes(menuFilter)) return false; const diff=r.actual-r.planned; if(varianceFilter==='over'&&!(diff>0)) return false; if(varianceFilter==='under'&&!(diff<0)) return false; if(varianceFilter==='equal'&&!(diff===0)) return false; return true;});}
+function aggregate(rows,keyFn){const map=new Map(); rows.forEach(r=>{const key=keyFn(r); if(!map.has(key)) map.set(key,{key,planned:0,actual:0,diff:0,lunchSold:0,retailEuro:0,campaignEuro:0,lunchEuro:0,totalEuro:0,day:'',weekDate:'',menu:''}); const a=map.get(key); a.planned+=r.planned; a.actual+=r.actual; a.diff+=(r.actual-r.planned); a.lunchSold+=r.lunchSold; a.retailEuro+=r.retailEuro; a.campaignEuro+=r.campaignEuro; a.lunchEuro+=r.lunchEuro; a.totalEuro+=r.totalEuro; a.day=a.day||r.day; a.weekDate=a.weekDate||r.weekDate; a.menu=a.menu||r.menu;}); return Array.from(map.values()).map(a=>({...a,ach:achievement(a.planned,a.actual)}));}
+function displayValue(units, euros){return viewMode()==='euros' ? fmtMoney(euros) : fmtNum(units);}
+function displayDiff(unitDiff, euroDiff){return viewMode()==='euros' ? fmtMoney(euroDiff) : fmtNum(unitDiff);}
+function updateViewHeaders(){const euros=viewMode()==='euros'; const label=euros?'€':'kpl'; [['weekPlannedHdr','Suunniteltu'],['weekActualHdr','Toteuma'],['weekDiffHdr','Erotus'],['dayPlannedHdr','Suunniteltu'],['dayActualHdr','Toteuma'],['dayDiffHdr','Erotus'],['menuPlannedHdr','Suunniteltu'],['menuActualHdr','Toteuma'],['menuDiffHdr','Erotus'],['detailPlannedHdr','Suunniteltu'],['detailSoldHdr','Lounasmyynti'],['detailActualHdr','Toteuma'],['detailDiffHdr','Erotus']].forEach(([id,txt])=>{const el=document.getElementById(id); if(el) el.textContent=`${txt} ${label}`;});}
+function renderAll(){const rows=filterRows(normalizedRows); updateViewHeaders(); setSummary(rows); renderChart(rows); renderWeek(rows); renderDay(rows); renderMenu(rows); renderDetail(rows);}
+function setSummary(rows){const planned=rows.reduce((s,r)=>s+r.planned,0); const sold=rows.reduce((s,r)=>s+r.actual,0); const diff=sold-planned; const ach=achievement(planned,sold); document.getElementById('plannedTotal').textContent=fmtNum(planned); document.getElementById('soldTotal').textContent=fmtNum(sold); document.getElementById('diffTotal').textContent=fmtNum(diff); document.getElementById('diffTotal').className=`value ${cls(diff)}`; document.getElementById('achievementPct').textContent=fmtPct(ach); document.getElementById('topRows').textContent=fmtNum(rows.length); document.getElementById('topPlanned').textContent=fmtNum(planned); document.getElementById('topSold').textContent=fmtNum(sold); document.getElementById('topDiff').textContent=fmtNum(diff);}
+function renderChart(rows){const chart=document.getElementById('salesChart'); chart.innerHTML=''; const days=aggregate(rows,r=>`${r.weekDate}__${r.day}`); if(!days.length){chart.innerHTML='<div class="muted">Ei vielä dataa graafille.</div>'; document.getElementById('bestDayTitle').textContent='—'; document.getElementById('bestDayText').textContent='Ei vielä dataa.'; document.getElementById('worstDayTitle').textContent='—'; document.getElementById('worstDayText').textContent='Ei vielä dataa.'; return;} const maxEuro=Math.max(...days.map(d=>d.totalEuro),1); days.forEach(d=>{const lunchH=(d.lunchEuro/maxEuro)*220; const retailH=(d.retailEuro/maxEuro)*220; const campaignH=(d.campaignEuro/maxEuro)*220; const col=document.createElement('div'); col.className='day-col'; col.innerHTML=`<div class="stack-value">${fmtMoney(d.totalEuro)}</div><div class="stack"><div class="seg seg-total" style="height:${lunchH}px"></div><div class="seg seg-retail" style="height:${retailH}px"></div><div class="seg seg-campaign" style="height:${campaignH}px"></div></div><div class="stack-label">${safe(d.weekDate)}<br>${safe(d.day)}</div>`; chart.appendChild(col);}); const sorted=[...days].sort((a,b)=>(b.ach-a.ach)||(b.totalEuro-a.totalEuro)); const best=sorted[0]; const worst=[...days].sort((a,b)=>(a.ach-b.ach)||(a.totalEuro-b.totalEuro))[0]; document.getElementById('bestDayTitle').textContent=`${best.weekDate} / ${best.day}`; document.getElementById('bestDayText').textContent=`Toteuma ${fmtPct(best.ach)} • Suunniteltu ${fmtNum(best.planned)} kpl • Toteuma ${fmtNum(best.actual)} kpl • Lounasmyynti ${fmtMoney(best.lunchEuro)} • Retail ${fmtMoney(best.retailEuro)} • Campaign ${fmtMoney(best.campaignEuro)} • Yhteensä ${fmtMoney(best.totalEuro)}`; document.getElementById('worstDayTitle').textContent=`${worst.weekDate} / ${worst.day}`; document.getElementById('worstDayText').textContent=`Toteuma ${fmtPct(worst.ach)} • Suunniteltu ${fmtNum(worst.planned)} kpl • Toteuma ${fmtNum(worst.actual)} kpl • Lounasmyynti ${fmtMoney(worst.lunchEuro)} • Retail ${fmtMoney(worst.retailEuro)} • Campaign ${fmtMoney(worst.campaignEuro)} • Yhteensä ${fmtMoney(worst.totalEuro)}`;}
+function renderWeek(rows){const body=document.getElementById('weekBody'); body.innerHTML=''; aggregate(rows,r=>r.weekDate).forEach(r=>{const diff=r.actual-r.planned; const tr=document.createElement('tr'); tr.innerHTML=`<td>${safe(r.key)}</td><td>${displayValue(r.planned, plannedEuro())}</td><td>${displayValue(r.actual, r.totalEuro)}</td><td class="${cls(viewMode()==='euros'?r.totalEuro:diff)}">${displayDiff(diff, r.totalEuro)}</td><td>${fmtPct(achievement(r.planned,r.actual))}</td><td>${fmtMoney(r.retailEuro)}</td><td>${fmtMoney(r.campaignEuro)}</td><td>${fmtMoney(r.totalEuro)}</td><td class="${cls(diff)}">${varianceLabel(diff)}</td>`; body.appendChild(tr);});}
+function renderDay(rows){const body=document.getElementById('dayBody'); body.innerHTML=''; const groups=aggregate(rows,r=>`${r.weekDate}__${r.day}`); if(!groups.length) return; const bestKey=[...groups].sort((a,b)=>(b.ach-a.ach)||(b.totalEuro-a.totalEuro))[0].key; const worstKey=[...groups].sort((a,b)=>(a.ach-b.ach)||(a.totalEuro-b.totalEuro))[0].key; groups.forEach(r=>{const [weekDate,day]=r.key.split('__'); const diff=r.actual-r.planned; const tr=document.createElement('tr'); tr.className=r.key===bestKey?'best-day':r.key===worstKey?'worst-day':''; tr.innerHTML=`<td>${safe(weekDate)}</td><td>${safe(day)}</td><td>${displayValue(r.planned, plannedEuro())}</td><td>${displayValue(r.actual, r.totalEuro)}</td><td class="${cls(viewMode()==='euros'?r.totalEuro:diff)}">${displayDiff(diff, r.totalEuro)}</td><td>${fmtPct(achievement(r.planned,r.actual))}</td><td>${fmtMoney(r.retailEuro)}</td><td>${fmtMoney(r.campaignEuro)}</td><td>${fmtMoney(r.totalEuro)}</td>`; body.appendChild(tr);});}
+function renderMenu(rows){const body=document.getElementById('menuBody'); body.innerHTML=''; aggregate(rows,r=>r.menu).sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff)).slice(0,50).forEach(r=>{const width=Math.min(100,Math.abs(r.diff)); const tr=document.createElement('tr'); tr.innerHTML=`<td>${safe(r.key)}</td><td>${displayValue(r.planned, plannedEuro())}</td><td>${displayValue(r.actual, r.totalEuro)}</td><td class="${cls(viewMode()==='euros'?r.totalEuro:r.diff)}">${displayDiff(r.diff, r.totalEuro)}</td><td>${fmtPct(achievement(r.planned,r.actual))}</td><td>${fmtMoney(r.retailEuro)}</td><td>${fmtMoney(r.campaignEuro)}</td><td>${fmtMoney(r.totalEuro)}</td><td><div class="bar-wrap"><div class="bar" style="width:${width}%"></div></div></td>`; body.appendChild(tr);});}
+function renderDetail(rows){const body=document.getElementById('detailBody'); body.innerHTML=''; rows.forEach(r=>{const diff=r.actual-r.planned; const tr=document.createElement('tr'); tr.innerHTML=`<td>${safe(r.weekDate)}</td><td>${safe(r.day)}</td><td>${safe(r.menu)}</td><td>${displayValue(r.planned, plannedEuro())}</td><td>${displayValue(r.lunchSold, r.lunchEuro)}</td><td>${fmtMoney(r.retailEuro)}</td><td>${fmtMoney(r.campaignEuro)}</td><td>${displayValue(r.actual, r.totalEuro)}</td><td class="${cls(viewMode()==='euros'?r.totalEuro:diff)}">${displayDiff(diff, r.totalEuro)}</td><td>${fmtPct(achievement(r.planned,r.actual))}</td>`; body.appendChild(tr);});}
+function parseSourceRows(rows){rawRows=rows; normalizedRows=normalizeRows(rows); document.getElementById('fileInfo').textContent=normalizedRows.length?`Luettu ${normalizedRows.length} riviä.`:'Tiedostosta ei löytynyt odotettuja rivejä.'; renderAll();}
+async function handleFile(file){document.getElementById('fileInfo').textContent=`Luetaan tiedostoa: ${file.name}`; const ext=file.name.toLowerCase().split('.').pop(); if(ext==='csv'){const text=await file.text(); const wb=XLSX.read(text,{type:'string',FS:';'}); const ws=wb.Sheets[wb.SheetNames[0]]; parseSourceRows(XLSX.utils.sheet_to_json(ws,{defval:''}));} else {const buffer=await file.arrayBuffer(); const wb=XLSX.read(buffer,{type:'array'}); const ws=wb.Sheets[wb.SheetNames[0]]; parseSourceRows(XLSX.utils.sheet_to_json(ws,{defval:''}));}}
+document.getElementById('fileInput').addEventListener('change',e=>{const file=e.target.files&&e.target.files[0]; if(file) handleFile(file);});
+function exportSummaryCsv(){const rows=[['Viikko / Jakso','Suunniteltu kpl','Toteuma kpl','Erotus kpl','Toteuma %','Retail €','Campaign €','Kokonaismyynti €']]; aggregate(filterRows(normalizedRows),r=>r.weekDate).forEach(r=>{const diff=r.actual-r.planned; rows.push([r.key,r.planned,r.actual,diff,`${achievement(r.planned,r.actual).toFixed(1)}%`,r.retailEuro.toFixed(2),r.campaignEuro.toFixed(2),r.totalEuro.toFixed(2)]);}); const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n'); const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='jalkilaskiainen_yhteenveto.csv'; a.click(); URL.revokeObjectURL(url);}
+function loadSampleData(){parseSourceRows([{'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Lounasmyynti':360,'Retail sales':2400,'Campaign sales':1200,'Liikevaihto alv 0':5400},{'Viikko / Päiväys':'Viikko 1 – 3/16/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':200,'Lounasmyynti':210,'Retail sales':1400,'Campaign sales':700,'Liikevaihto alv 0':3900},{'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 1 Corp','Suunniteltu':400,'Lounasmyynti':390,'Retail sales':2500,'Campaign sales':1400,'Liikevaihto alv 0':6100},{'Viikko / Päiväys':'Viikko 1 – 3/17/2026','Päivä':'Tiistai','Menu':'Lounas 3 Corp','Suunniteltu':200,'Lounasmyynti':230,'Retail sales':1500,'Campaign sales':800,'Liikevaihto alv 0':4500},{'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 1 Corp','Suunniteltu':300,'Lounasmyynti':280,'Retail sales':1700,'Campaign sales':1100,'Liikevaihto alv 0':4700},{'Viikko / Päiväys':'Viikko 2 – 3/23/2026','Päivä':'Maanantai','Menu':'Lounas 2 Corp','Suunniteltu':160,'Lounasmyynti':170,'Retail sales':950,'Campaign sales':750,'Liikevaihto alv 0':3200}]);}
+function clearAll(){rawRows=[]; normalizedRows=[]; document.getElementById('fileInput').value=''; document.getElementById('menuFilter').value=''; document.getElementById('varianceFilter').value='all'; document.getElementById('viewMode').value='units'; document.getElementById('fileInfo').textContent='Tiedostoa ei ole vielä ladattu.'; ['weekBody','dayBody','menuBody','detailBody','salesChart'].forEach(id=>document.getElementById(id).innerHTML=''); document.getElementById('bestDayTitle').textContent='—'; document.getElementById('bestDayText').textContent='Ei vielä dataa.'; document.getElementById('worstDayTitle').textContent='—'; document.getElementById('worstDayText').textContent='Ei vielä dataa.'; setSummary([]); updateViewHeaders();}
+setSummary([]); updateViewHeaders();
 </script>
-  <script src="nav.js"></script>
 </body>
 </html>
-
-
