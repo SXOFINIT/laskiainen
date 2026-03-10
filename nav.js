@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="index.html" class="nav-link">🏠 Etusivu</a>
           <a href="laskiainenV13.html" class="nav-link">SoLaskiainen</a>
           <a href="jalkilaskiainen.html" class="nav-link">Jälkilaskiainen</a>
+          <a href="laskiainenV2.html" class="nav-link">Laskiainen</a>
       </div>
   </div>
   `;
@@ -18,4 +19,5 @@ document.addEventListener("DOMContentLoaded", () => {
   container.innerHTML = nav;
 
   document.body.prepend(container);
+
 });
