@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JälkilaskiainenV2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--theme:#063970;--theme2:#0c4a8a;--bg:#eef4ff;--card:#ffffff;--text:#1c2b40;--muted:#5f6f86;--border:rgba(6,57,112,.12);--good:#1f8a5b;--bad:#c43d3d;--shadow:0 12px 30px rgba(0,0,0,.08);--shadow-soft:0 10px 24px rgba(6,57,112,.06)}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1480px;margin:auto;padding:24px 20px 40px}
+    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}.brand{font-weight:800;color:var(--theme);font-size:20px}.navlinks{display:flex;gap:10px;flex-wrap:wrap}.navlinks a{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--theme);text-decoration:none;font-weight:700;box-shadow:var(--shadow-soft)}
+    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(6,57,112,.18);margin-bottom:20px}.hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}.eyebrow{background:rgba(255,255,255,.14);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}.pill{background:rgba(6,57,112,.08);color:var(--theme)}
+    h1,h2{margin:0 0 10px} h1{font-size:38px;letter-spacing:-.03em} h2{font-size:24px;color:var(--theme)} p{margin:0;color:var(--muted);line-height:1.55}.hero p,.hero .mini-stat .label{color:rgba(255,255,255,.9)}
+    .hero-stats,.metrics{display:grid;gap:14px}.hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,860px)}.metrics{grid-template-columns:repeat(4,1fr)}
+    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)} .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
+    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}.mini-stat .value,.metric .value{font-weight:800;line-height:1.05}.mini-stat .value{font-size:24px;color:#fff}.metric{border-radius:18px;padding:20px;background:linear-gradient(180deg,#fff 0%,#f9fbff 100%)}.metric .value{font-size:30px;color:var(--theme)}.metric .sub{font-size:12px;color:var(--muted);line-height:1.5}
+    .card{border-radius:20px;padding:22px;margin-bottom:20px}.row{display:grid;gap:20px;grid-template-columns:1fr 1fr;margin-bottom:20px}
+    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+    button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18)} button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
+    textarea,input[type="text"]{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px}
+    textarea{width:100%;min-height:320px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.4;border-radius:16px}
+    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px} th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top} tr:last-child td{border-bottom:0} th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    .pos{color:var(--good);font-weight:700}.neg{color:var(--bad);font-weight:700}.muted{color:var(--muted)}
+    .compact-input{width:110px;padding:8px 10px;border-radius:10px;border:1px solid rgba(6,57,112,.16);font:inherit}
+    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:980px){.row{grid-template-columns:1fr}}
+    @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topnav">
+    <div class="brand">JälkilaskiainenV2</div>
+    <div class="navlinks">
+      <a href="index.html">🏠 Etusivu</a>
+      <a href="laskiainenV13.html">SoLaskiainen</a>
+      <a href="jalkilaskiainen.html">Jälkilaskiainen</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="eyebrow">JälkilaskiainenV2</div>
+        <h1>Produced vs myynti menuittain</h1>
+        <p>Liitä Excelistä kopioitu data tähän. Työkalu tunnistaa menu-tason Corp-rivit, antaa käyttäjän syöttää myyntimäärän vapaasti ja laskee myynnin COS-arvon kaavalla Produced Total COS ÷ Myynti.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="mini-stat"><div class="label">Rivejä</div><div class="value" id="topRows">0</div></div>
+        <div class="mini-stat"><div class="label">Produced kpl</div><div class="value" id="topProduced">0</div></div>
+        <div class="mini-stat"><div class="label">Myynti kpl</div><div class="value" id="topSold">0</div></div>
+        <div class="mini-stat"><div class="label">COS / myynti</div><div class="value" id="topSalesCos">€0.00</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="section-head"><div><h2>Lähdedata</h2><p>Liitä Excelistä kopioitu näkymä tähän. Parseri odottaa tab-välitteistä rakennetta.</p></div><div class="pill">Copy-paste</div></div>
+      <textarea id="source"></textarea>
+      <div class="buttons">
+        <button onclick="parseSource()">Lue lähdedata</button>
+        <button class="secondary" onclick="loadSample()">Lataa esimerkki</button>
+        <button class="secondary" onclick="clearAll()">Tyhjennä</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-head"><div><h2>Yhteenveto</h2><p>Myynnin COS lasketaan kaavalla <strong>Produced Total COS ÷ Myynti</strong>.</p></div><div class="pill">Menu-taso</div></div>
+      <div class="metrics">
+        <div class="metric"><div class="label">Produced Total COS</div><div class="value" id="metricProducedCos">€0.00</div><div class="sub">Kaikki menut yhteensä</div></div>
+        <div class="metric"><div class="label">Myynti yhteensä</div><div class="value" id="metricSalesQty">0</div><div class="sub">Syötetyt myyntimäärät</div></div>
+        <div class="metric"><div class="label">Myynnin COS</div><div class="value" id="metricSalesCos">€0.00</div><div class="sub">Produced COS ÷ Myynti</div></div>
+        <div class="metric"><div class="label">Poikkeama</div><div class="value" id="metricVariance">0</div><div class="sub">Produced − myynti</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head"><div><h2>Menuvertailu</h2><p>Syötä myyntimäärä suoraan taulukkoon. Myynnin COS päivittyy, kun poistut kentästä.</p></div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Päiväys</th>
+            <th>Menu</th>
+            <th>Planned</th>
+            <th>Produced</th>
+            <th>Produced COS</th>
+            <th>Myynti</th>
+            <th>Myynnin COS</th>
+            <th>Produced − myynti</th>
+          </tr>
+        </thead>
+        <tbody id="menuBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+let parsedRows = [];
+const soldInputs = {};
+
+function fmtNum(v){return new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v||0));}
+function fmtMoney(v){return new Intl.NumberFormat('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v||0));}
+function toNum(v){
+  if(v===null||v===undefined||v==='') return 0;
+  if(typeof v==='number') return v;
+  return Number(String(v).replace(/\s/g,'').replace(',', '.')) || 0;
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function isDateLine(line){return /^\d{1,2}\/\d{1,2}\/\d{4}/.test(String(line||'').trim());}
+function normalizeCell(s){return String(s||'').replace(/\u00a0/g,' ').trim();}
+function isCorpMenuCell(cell){return /corp$/i.test(normalizeCell(cell));}
+
+function parseExcelCopiedRow(line){
+  const cells = String(line || '').split('\t').map(normalizeCell);
+  if (!cells.some(c => c !== '')) return null;
+
+  const first = cells[0] || '';
+  if (first.startsWith('Date / Menu / Component')) return { type: 'header' };
+  if (first === 'Planned' || first.startsWith('Planned ')) return { type: 'header' };
+  if (isDateLine(first)) return { type: 'date', date: first };
+  if (/^set menus$/i.test(first)) return { type: 'skip' };
+  if (!isCorpMenuCell(first)) return { type: 'skip' };
+
+  const plannedQty = toNum(cells[2]);
+  const plannedTotalCos = toNum(cells[3]);
+  const producedQty = toNum(cells[5]);
+  const producedTotalCos = toNum(cells[6]);
+
+  return {
+    type: 'menu',
+    menu: first,
+    plannedQty,
+    plannedTotalCos,
+    producedQty,
+    producedTotalCos
+  };
+}
+
+function parseSource(){
+  const text = document.getElementById('source').value;
+  const lines = text.split(/\r?\n/);
+  parsedRows = [];
+  let currentDate = '';
+
+  for (const line of lines) {
+    const parsed = parseExcelCopiedRow(line);
+    if (!parsed) continue;
+    if (parsed.type === 'header' || parsed.type === 'skip') continue;
+    if (parsed.type === 'date') {
+      currentDate = parsed.date;
+      continue;
+    }
+    if (parsed.type === 'menu') {
+      const key = `${currentDate}__${parsed.menu}`;
+      if (soldInputs[key] === undefined) soldInputs[key] = 0;
+      parsedRows.push({
+        date: currentDate,
+        menu: parsed.menu,
+        plannedQty: parsed.plannedQty,
+        plannedTotalCos: parsed.plannedTotalCos,
+        producedQty: parsed.producedQty,
+        producedTotalCos: parsed.producedTotalCos,
+        key
+      });
+    }
+  }
+
+  renderAll();
+}
+
+function renderAll(){
+  renderTable();
+  renderSummary();
+}
+
+function renderTable(){
+  const body = document.getElementById('menuBody');
+  body.innerHTML = '';
+
+  parsedRows.forEach(r => {
+    const sold = toNum(soldInputs[r.key]);
+    const salesCos = sold > 0 ? r.producedTotalCos / sold : 0;
+    const variance = r.producedQty - sold;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${escapeHtml(r.date)}</td>
+      <td>${escapeHtml(r.menu)}</td>
+      <td>${fmtNum(r.plannedQty)}</td>
+      <td>${fmtNum(r.producedQty)}</td>
+      <td>${fmtMoney(r.producedTotalCos)}</td>
+      <td><input class="compact-input" type="text" inputmode="decimal" value="${sold}" onfocus="this.select()" onchange="updateSold('${escapeHtml(r.key)}', this.value)" onblur="updateSold('${escapeHtml(r.key)}', this.value)"></td>
+      <td>${fmtMoney(salesCos)}</td>
+      <td class="${variance > 0 ? 'pos' : variance < 0 ? 'neg' : 'muted'}">${fmtNum(variance)}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+function updateSold(key, value){
+  soldInputs[key] = toNum(value);
+  renderAll();
+}
+
+function renderSummary(){
+  const producedCos = parsedRows.reduce((s, r) => s + r.producedTotalCos, 0);
+  const producedQty = parsedRows.reduce((s, r) => s + r.producedQty, 0);
+  const soldQty = parsedRows.reduce((s, r) => s + toNum(soldInputs[r.key]), 0);
+  const salesCos = soldQty > 0 ? producedCos / soldQty : 0;
+  const variance = producedQty - soldQty;
+
+  document.getElementById('topRows').textContent = fmtNum(parsedRows.length);
+  document.getElementById('topProduced').textContent = fmtNum(producedQty);
+  document.getElementById('topSold').textContent = fmtNum(soldQty);
+  document.getElementById('topSalesCos').textContent = fmtMoney(salesCos);
+
+  document.getElementById('metricProducedCos').textContent = fmtMoney(producedCos);
+  document.getElementById('metricSalesQty').textContent = fmtNum(soldQty);
+  document.getElementById('metricSalesCos').textContent = fmtMoney(salesCos);
+  const varEl = document.getElementById('metricVariance');
+  varEl.textContent = fmtNum(variance);
+  varEl.className = `value ${variance > 0 ? 'pos' : variance < 0 ? 'neg' : 'muted'}`;
+}
+
+function loadSample(){
+  document.getElementById('source').value = `\t\tPlanned\t\t\tProduced\t\t
+Date / Menu / Component Group / Component\tWeight/Port.\tQTY\tCOS Total\tCOS / Port.\tQTY\tCOS Total\tCOS / Port.
+3/9/2026\t\t\t748,96\t\t\t748,96\t
+Set Menus\t\t\t748,96\t\t\t748,96\t
+  Lounas 1 Corp\t\t400,00\t0,00\t0,00\t400,00\t0,00\t0,00
+    Kievin kana\t0.130\t400,00\t0,00\t0,00\t400,00\t0,00\t0,00
+    Riisi-moniviljaseos keitetty\t0.200\t400,00\t0,00\t0,00\t400,00\t0,00\t0,00
+  Lounas 2 Corp\t\t400,00\t0,00\t0,00\t350,00\t0,00\t0,00
+    Lihapulla 14g nauta kypsä\t0.140\t400,00\t0,00\t0,00\t350,00\t0,00\t0,00
+    Perunamuusi\t0.200\t400,00\t0,00\t0,00\t350,00\t0,00\t0,00
+  Lounas 3 Corp\t\t400,00\t694,20\t1,74\t400,00\t694,20\t1,74
+    Lasagne vegaaninen\t0.500\t400,00\t694,20\t694,20\t400,00\t694,20\t694,20
+  Lisäkesalaatti Corp\t\t1 200,00\t54,76\t0,05\t1 200,00\t54,76\t0,05
+    Amerikansalaatti kurkku-tomaatti\t0.030\t1 200,00\t54,76\t54,76\t1 200,00\t54,76\t54,76
+  Leipäpöytä Corp\t\t1 200,00\t0,00\t0,00\t1 200,00\t0,00\t0,00
+    Ruisleipä 20g (S)\t0.020\t1 200,00\t0,00\t0,00\t1 200,00\t0,00\t0,00`;
+}
+
+function clearAll(){
+  document.getElementById('source').value = '';
+  parsedRows = [];
+  Object.keys(soldInputs).forEach(k => delete soldInputs[k]);
+  renderAll();
+}
+
+renderAll();
+</script>
+</body>
+</html>
