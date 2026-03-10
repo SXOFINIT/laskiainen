@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SoLaskiainen</title>
+<title>Laskiainen Tools</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -18,14 +18,14 @@
 --text:#1c2b40;
 --muted:#5f6f86;
 --border:rgba(6,57,112,.12);
---shadow:0 15px 40px rgba(0,0,0,.08);
+--shadow:0 12px 30px rgba(0,0,0,.08);
 }
 
 *{box-sizing:border-box}
 
 body{
 margin:0;
-font-family:Inter,Arial;
+font-family:Inter,Arial,sans-serif;
 background:var(--bg);
 color:var(--text);
 }
@@ -33,70 +33,37 @@ color:var(--text);
 .wrap{
 max-width:1200px;
 margin:auto;
-padding:30px 20px 50px;
+padding:40px 20px 60px;
 }
 
-.topnav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-flex-wrap:wrap;
+header{
+text-align:center;
+margin-bottom:40px;
 }
 
-.brand{
-font-weight:800;
-font-size:20px;
+h1{
+font-size:42px;
+margin-bottom:10px;
 color:var(--theme);
 }
 
-.navlinks{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.navlinks a{
-text-decoration:none;
-padding:10px 14px;
-border-radius:12px;
-background:#fff;
-border:1px solid var(--border);
-color:var(--theme);
-font-weight:700;
-box-shadow:var(--shadow);
-}
-
-.hero{
-background:linear-gradient(135deg,var(--theme),var(--theme2));
-color:white;
-padding:40px;
-border-radius:20px;
-margin-bottom:30px;
-}
-
-.hero h1{
-margin:0 0 10px;
-font-size:40px;
-}
-
-.hero p{
-opacity:.9;
-max-width:650px;
+p.lead{
+font-size:18px;
+color:var(--muted);
 }
 
 .tools{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:25px;
-margin-top:25px;
+grid-template-columns:1fr 1fr;
+gap:30px;
+margin-top:40px;
 }
 
 .card{
 background:var(--card);
-border-radius:18px;
-padding:25px;
 border:1px solid var(--border);
+border-radius:20px;
+padding:30px;
 box-shadow:var(--shadow);
 display:flex;
 flex-direction:column;
@@ -104,116 +71,125 @@ justify-content:space-between;
 }
 
 .card h2{
-margin-top:0;
+margin:0 0 10px 0;
 color:var(--theme);
 }
 
 .card p{
 color:var(--muted);
-line-height:1.5;
+line-height:1.6;
 }
 
-.button{
-margin-top:18px;
-display:inline-block;
+.btn{
+margin-top:20px;
+padding:14px 20px;
+border-radius:12px;
 text-decoration:none;
-padding:12px 18px;
+font-weight:700;
 background:var(--theme);
 color:white;
-border-radius:12px;
-font-weight:700;
+display:inline-block;
 text-align:center;
 }
 
-.footer{
+.btn:hover{
+background:var(--theme2);
+}
+
+footer{
 text-align:center;
-margin-top:40px;
+margin-top:50px;
 color:var(--muted);
 font-size:14px;
 }
 
-@media(max-width:700px){
-.hero h1{font-size:28px}
+@media (max-width:900px){
+.tools{
+grid-template-columns:1fr;
+}
 }
 
 </style>
 </head>
 
+
 <body>
 
 <div class="wrap">
 
-<div class="topnav">
-<div class="brand">SoLaskiainen</div>
+<header>
 
-<div class="navlinks">
-<a href="index.html">🏠 Etusivu</a>
-<a href="laskiainenV13.html">SoLaskiainen</a>
-<a href="laskiainenV2.html">LaskiainenV2</a>
-<a href="jalkilaskiainen.html">Jälkilaskiainen</a>
-</div>
-</div>
+<h1>Laskiainen Tools</h1>
 
-<div class="hero">
-<h1>Ruokakustannusten analyysityökalut</h1>
-<p>
-SoLaskiainen on keittiö- ja ravintolatoiminnan analyysityökalu, joka auttaa
-suunnittelemaan ruokakustannuksia, simuloimaan myyntiä ja analysoimaan
-toteumaa suunnitelmaan verrattuna.
+<p class="lead">
+Työkalut ruokalistan kustannus- ja myyntianalyysiin
 </p>
-</div>
+
+</header>
+
+
 
 <div class="tools">
 
 <div class="card">
-<h2>SoLaskiainen</h2>
+
+<h2>SoLaskiainen V2</h2>
+
 <p>
-Täysi suunnittelutyökalu ruokakustannuksille. Laskee painotetut keskiarvot,
-kustannukset per annos ja simuloi myyntiä.
+
+Suunnittelutyökalu ruokalistan kustannuslaskentaan.
+
+<br><br>
+
+• lukee lähdejärjestelmästä kopioidun ruokalistan  
+• laskee painotetut ruokakustannukset  
+• simuloi myyntiä  
+• muodostaa myyntiexcelin
+
 </p>
 
-<a class="button" href="laskiainenV13.html">
+<a class="btn" href="LaskiainenV2.html">
 Avaa työkalu
 </a>
+
 </div>
+
 
 
 <div class="card">
-<h2>Laskiainen V2</h2>
+
+<h2>Jälkilaskiainen V2</h2>
+
 <p>
-Kevyempi kustannuslaskenta kolmella analyysillä:
-kokonaiskustannus, valittujen menujen kustannus
-sekä lisäkkeiden kustannus Leipäpöytä-määrää vasten.
+
+Analyysityökalu toteuman seurantaan.
+
+<br><br>
+
+• lukee Excelistä kopioidun tuotantodatan  
+• syötä toteutunut myynti  
+• laskee myynnin COS:n  
+• vertaa tuotantoa ja myyntiä menuittain
+
 </p>
 
-<a class="button" href="laskiainenV2.html">
+<a class="btn" href="jalkilaskiainenV2.html">
 Avaa työkalu
 </a>
-</div>
-
-
-<div class="card">
-<h2>Jälkilaskiainen</h2>
-<p>
-Analysoi toteutunut myynti SoLaskiaisen tuottamasta Excelistä.
-Näyttää poikkeamat suunniteltuun sekä myynnin jakauman
-lounas-, retail- ja kampanjamyyntiin.
-</p>
-
-<a class="button" href="jalkilaskiainen.html">
-Avaa työkalu
-</a>
-</div>
 
 </div>
 
-<div class="footer">
-SoLaskiainen © 2026
+
 </div>
+
+
+<footer>
+
+Laskiainen Tools
+
+</footer>
 
 </div>
 
 </body>
 </html>
-
-
