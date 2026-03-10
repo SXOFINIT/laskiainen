@@ -1,38 +1,79 @@
 <!DOCTYPE html>
 <html lang="fi">
 <head>
-  <link rel="stylesheet" href="nav.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LaskiainenV2</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--theme:#063970;--theme2:#0c4a8a;--bg:#eef4ff;--card:#ffffff;--text:#1c2b40;--muted:#5f6f86;--border:rgba(6,57,112,.12);--shadow:0 12px 30px rgba(0,0,0,.08)}
-    *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)} .wrap{max-width:1450px;margin:auto;padding:24px 20px 40px}
-    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}.brand{font-weight:800;color:var(--theme);font-size:20px}.navlinks{display:flex;gap:10px;flex-wrap:wrap}.navlinks a{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--theme);text-decoration:none;font-weight:700;box-shadow:var(--shadow)}
-    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(6,57,112,.18);margin-bottom:20px}.hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}.eyebrow{background:rgba(255,255,255,.14);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}.pill{background:rgba(6,57,112,.08);color:var(--theme)}
-    h1,h2,h3{margin:0 0 10px} h1{font-size:38px;letter-spacing:-.03em} h2{font-size:24px;color:var(--theme)} h3{font-size:18px;color:var(--theme)} p{margin:0;color:var(--muted);line-height:1.55}.hero p,.hero .mini-stat .label{color:rgba(255,255,255,.9)}
-    .hero-stats,.metrics{display:grid;gap:14px}.hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,860px)}.metrics{grid-template-columns:repeat(4,1fr)}
-    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)} .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
-    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}.mini-stat .value,.metric .value{font-weight:800;line-height:1.05}.mini-stat .value{font-size:24px;color:#fff}.metric{border-radius:18px;padding:20px;background:linear-gradient(180deg,#fff 0%,#f9fbff 100%)}.metric .value{font-size:30px;color:var(--theme)}.metric .sub,.small{font-size:12px;color:var(--muted);line-height:1.5}
-    .card{border-radius:20px;padding:22px;margin-bottom:20px}.row{display:grid;gap:20px;margin-bottom:20px;grid-template-columns:1.15fr 1fr}
-    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px} button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18)} button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
-    input[type="number"],textarea{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px} textarea{width:100%;min-height:320px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.4;border-radius:16px}
-    .menu-list{display:grid;gap:10px;margin-top:12px;max-height:320px;overflow:auto}.menu-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#f7f9ff}
-    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff} table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px} th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top} tr:last-child td{border-bottom:0} th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
-    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}} @media (max-width:980px){.row{grid-template-columns:1fr}} @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1450px;margin:auto;padding:24px 20px 40px}
+    .topnav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+    .brand{font-weight:800;color:var(--theme);font-size:20px}
+    .navlinks{display:flex;gap:10px;flex-wrap:wrap}
+    .navlinks a{padding:10px 14px;border-radius:12px;background:#fff;border:1px solid var(--border);color:var(--theme);text-decoration:none;font-weight:700;box-shadow:var(--shadow)}
+    .hero{background:linear-gradient(135deg,var(--theme),var(--theme2));color:#fff;border-radius:24px;padding:28px;box-shadow:0 18px 40px rgba(6,57,112,.18);margin-bottom:20px}
+    .hero-top,.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}
+    .eyebrow{background:rgba(255,255,255,.14);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+    .pill{background:rgba(6,57,112,.08);color:var(--theme)}
+    h1,h2,h3{margin:0 0 10px}
+    h1{font-size:38px;letter-spacing:-.03em}
+    h2{font-size:24px;color:var(--theme)}
+    h3{font-size:18px;color:var(--theme)}
+    p{margin:0;color:var(--muted);line-height:1.55}
+    .hero p,.hero .mini-stat .label{color:rgba(255,255,255,.9)}
+    .hero-stats,.metrics{display:grid;gap:14px}
+    .hero-stats{grid-template-columns:repeat(4,minmax(150px,1fr));width:min(100%,860px)}
+    .metrics{grid-template-columns:repeat(4,1fr)}
+    .mini-stat,.metric,.card{background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow)}
+    .mini-stat{border-radius:16px;padding:16px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.14);box-shadow:none}
+    .mini-stat .label,.metric .label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+    .mini-stat .value,.metric .value{font-weight:800;line-height:1.05}
+    .mini-stat .value{font-size:24px;color:#fff}
+    .metric{border-radius:18px;padding:20px;background:linear-gradient(180deg,#fff 0%,#f9fbff 100%)}
+    .metric .value{font-size:30px;color:var(--theme)}
+    .metric .sub,.small{font-size:12px;color:var(--muted);line-height:1.5}
+    .card{border-radius:20px;padding:22px;margin-bottom:20px}
+    .row{display:grid;gap:20px;margin-bottom:20px;grid-template-columns:1.15fr 1fr}
+    .buttons{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+    button{border:0;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700;background:var(--theme);color:#fff;box-shadow:0 10px 20px rgba(6,57,112,.18)}
+    button.secondary{background:#fff;color:var(--theme);border:1px solid var(--border);box-shadow:none}
+    textarea,input[type="number"]{border:1px solid rgba(6,57,112,.16);background:#fff;color:var(--text);border-radius:12px;padding:11px 14px;font-size:14px}
+    textarea{width:100%;min-height:240px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.4;border-radius:16px}
+    .source-preview{min-height:180px}
+    .menu-list{display:grid;gap:10px;margin-top:12px;max-height:320px;overflow:auto}
+    .menu-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);border-radius:14px;background:#f7f9ff}
+    .info-box{padding:14px 16px;border:1px dashed rgba(6,57,112,.22);border-radius:14px;background:#f7f9ff;color:var(--muted);font-size:14px;line-height:1.5;margin-top:14px}
+    .table-wrap{overflow:auto;border-radius:16px;border:1px solid var(--border);background:#fff}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+    th,td{padding:12px;border-bottom:1px solid rgba(6,57,112,.10);text-align:left;vertical-align:top}
+    tr:last-child td{border-bottom:0}
+    th{position:sticky;top:0;background:#f7f9ff;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+    @media (max-width:1180px){.metrics,.hero-stats{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:980px){.row{grid-template-columns:1fr}}
+    @media (max-width:680px){.wrap{padding:16px}.metrics,.hero-stats{grid-template-columns:1fr}h1{font-size:30px}.metric .value{font-size:24px}}
   </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="topnav">
+    <div class="brand">LaskiainenV2</div>
+    <div class="navlinks">
+      <a href="index.html">🏠 Etusivu</a>
+      <a href="laskiainenV13.html">SoLaskiainen V13</a>
+      <a href="jalkilaskiainen.html">Jälkilaskiainen</a>
+    </div>
+  </div>
 
   <div class="hero">
     <div class="hero-top">
       <div>
         <div class="eyebrow">LaskiainenV2</div>
         <h1>Kevyempi kustannuslaskenta</h1>
-        <p>Lähdedatan syöttö ja ohjaimet pidetään ennallaan. Tämä versio näyttää kolme yksinkertaistettua kustannusnäkymää Leipäpöytä Corp -määrän ympärille rakennetulla logiikalla.</p>
+        <p>Syötä ruokalistat yksi viikko kerrallaan. Tämä versio näyttää kolme yksinkertaistettua kustannusnäkymää Leipäpöytä Corp -määrän ympärille rakennetulla logiikalla.</p>
       </div>
       <div class="hero-stats">
         <div class="mini-stat"><div class="label">Viikkoja</div><div class="value" id="weeksDetectedTop">0</div></div>
@@ -45,16 +86,44 @@
 
   <div class="row">
     <div class="card">
-      <div class="section-head"><div><h2>Lähdedata</h2><p>Liitä data täsmälleen samassa muodossa kuin lähdenäkymästä kopioituna.</p></div><div class="pill">Suora kopiointi</div></div>
-      <textarea id="source"></textarea>
+      <div class="section-head">
+        <div>
+          <h2>Lähdedata</h2>
+          <p>Liitä yksi viikko kerrallaan alla olevaan kenttään ja lisää se koottuun lähdedataan painikkeella.</p>
+        </div>
+        <div class="pill">Turvallisempi syöttö</div>
+      </div>
+
+      <h3>1. Liitä yhden viikon ruokalista</h3>
+      <textarea id="weekInput" placeholder="Liitä tähän yhden viikon ruokalista..."></textarea>
+      <div class="buttons">
+        <button onclick="addWeeklyMenu()">Lisää ruokalista</button>
+        <button class="secondary" onclick="clearWeekInput()">Tyhjennä viikkoboksi</button>
+        <button class="secondary" onclick="loadSample()">Lataa esimerkki</button>
+      </div>
+      <div class="small" id="weekCountInfo" style="margin-top:10px;">Lisättyjä ruokalistoja: 0</div>
+
+      <div class="info-box">
+        Lisää viikot yksi kerrallaan. Kun kaikki viikot on lisätty koottuun lähdedataan, paina <strong>Lue lähdedata</strong>.
+      </div>
+
+      <h3 style="margin-top:20px;">2. Koostettu lähdedata</h3>
+      <textarea id="source" class="source-preview" placeholder="Lisätyt ruokalistat näkyvät tässä..."></textarea>
       <div class="buttons">
         <button onclick="parseSourceAndRender()">Lue lähdedata</button>
-        <button class="secondary" onclick="loadSample()">Lataa esimerkki</button>
-        <button class="secondary" onclick="clearAll()">Tyhjennä</button>
+        <button class="secondary" onclick="clearSourceData()">Tyhjennä koostettu lähdedata</button>
+        <button class="secondary" onclick="clearAll()">Tyhjennä kaikki</button>
       </div>
     </div>
+
     <div class="card">
-      <div class="section-head"><div><h2>Ohjaimet</h2><p>Pidetään ennallaan kuten SoLaskiainenissa.</p></div><div class="pill">Valitse menut</div></div>
+      <div class="section-head">
+        <div>
+          <h2>Ohjaimet</h2>
+          <p>Pidetään ennallaan kuten SoLaskiainenissa.</p>
+        </div>
+        <div class="pill">Valitse menut</div>
+      </div>
       <div class="buttons">
         <button class="secondary" onclick="setAllMenus(true)">Valitse kaikki</button>
         <button class="secondary" onclick="setMainMenus()">Valitse lounaslinjat</button>
@@ -69,7 +138,13 @@
   </div>
 
   <div class="card">
-    <div class="section-head"><div><h2>Osio 1</h2><p>Laskee yhteen kaikkien niiden menujen raaka-ainekustannuksen, joille on suunniteltu määriä. Jakaa summan menuun <strong>Leipäpöytä Corp</strong> suunnitellulla määrällä.</p></div><div class="pill">Kaikki / Leipäpöytä</div></div>
+    <div class="section-head">
+      <div>
+        <h2>Osio 1</h2>
+        <p>Laskee yhteen kaikkien niiden menujen raaka-ainekustannuksen, joille on suunniteltu määriä. Jakaa summan menuun <strong>Leipäpöytä Corp</strong> suunnitellulla määrällä.</p>
+      </div>
+      <div class="pill">Kaikki / Leipäpöytä</div>
+    </div>
     <div class="metrics">
       <div class="metric"><div class="label">Raaka-ainekustannus</div><div class="value" id="section1Cost">€0.00</div><div class="sub">Kaikista aktiivisista menuista</div></div>
       <div class="metric"><div class="label">Leipäpöytä määrä</div><div class="value" id="section1BreadQty">0</div><div class="sub">Leipäpöytä Corp yhteensä</div></div>
@@ -80,7 +155,13 @@
   </div>
 
   <div class="card">
-    <div class="section-head"><div><h2>Osio 2</h2><p>Toimii kuten V13:n “1. Painotetut keskiarvot — vain ruokakustannus”. Laskee yhteen kaikkien aktiivisten menujen raaka-ainekustannuksen ja jakaa sen ohjaimissa valittujen menujen yhteenlasketuilla määrillä.</p></div><div class="pill">Valitut menut</div></div>
+    <div class="section-head">
+      <div>
+        <h2>Osio 2</h2>
+        <p>Toimii kuten V13:n “1. Painotetut keskiarvot — vain ruokakustannus”. Laskee yhteen kaikkien aktiivisten menujen raaka-ainekustannuksen ja jakaa sen ohjaimissa valittujen menujen yhteenlasketuilla määrillä.</p>
+      </div>
+      <div class="pill">Valitut menut</div>
+    </div>
     <div class="metrics">
       <div class="metric"><div class="label">Raaka-ainekustannus</div><div class="value" id="section2Cost">€0.00</div><div class="sub">Aktiivisista menuista</div></div>
       <div class="metric"><div class="label">Valittu määrä</div><div class="value" id="section2Qty">0</div><div class="sub">Ohjaimissa valitut menut</div></div>
@@ -91,12 +172,18 @@
   </div>
 
   <div class="card">
-    <div class="section-head"><div><h2>Lisäkkeet</h2><p>Laskee yhteen kaikkien niiden menujen raaka-ainekustannuksen, joita ei ole valittuna ohjaimessa, ja jakaa sen menuun <strong>Leipäpöytä Corp</strong> suunnitellulla määrällä.</p></div><div class="pill">Ei valitut / Leipäpöytä</div></div>
+    <div class="section-head">
+      <div>
+        <h2>Lisäkkeet</h2>
+        <p>Laskee yhteen kaikkien niiden menujen raaka-ainekustannuksen, joita ei ole valittuna ohjaimessa, ja jakaa sen menuun <strong>Leipäpöytä Corp</strong> suunnitellulla määrällä.</p>
+      </div>
+      <div class="pill">Ei valitut / Leipäpöytä</div>
+    </div>
     <div class="metrics">
       <div class="metric"><div class="label">Raaka-ainekustannus</div><div class="value" id="section3Cost">€0.00</div><div class="sub">Valitsemattomat menut</div></div>
       <div class="metric"><div class="label">Leipäpöytä määrä</div><div class="value" id="section3BreadQty">0</div><div class="sub">Leipäpöytä Corp yhteensä</div></div>
       <div class="metric"><div class="label">Kustannus / määrä</div><div class="value" id="section3Avg">€0.00</div><div class="sub">Valitsemattomien kustannus ÷ Leipäpöytä määrä</div></div>
-      <div class="metric"><div class="label">Aktiivisia päiviä</div><div class="value" id="section3Days">0</div><div class="sub">Päivät, joilla Leipäpöytä määrä</div></div>
+      <div class="metric"><div class="label">Aktiivisia päiviä</div><div class="value" id="section3Days">0</div><div class="sub">Päivät, joilla on Leipäpöytä määrä</div></div>
     </div>
     <div class="table-wrap" style="margin-top:20px;"><table><thead><tr><th>Viikko / Jakso</th><th>Päivä</th><th>Raaka-ainekustannus</th><th>Leipäpöytä määrä</th><th>Kustannus / määrä</th><th>Taso</th></tr></thead><tbody id="section3Body"></tbody></table></div>
   </div>
@@ -107,7 +194,9 @@ const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunda
 const WORKDAYS=['Monday','Tuesday','Wednesday','Thursday','Friday'];
 const FIN_DAYS={Monday:'Maanantai',Tuesday:'Tiistai',Wednesday:'Keskiviikko',Thursday:'Torstai',Friday:'Perjantai',Saturday:'Lauantai',Sunday:'Sunnuntai'};
 const DATE_RE=/^\d{1,2}\/\d{1,2}\/\d{4}$/;
-let parsedWeeks=[]; let menuSelections=[];
+let parsedWeeks=[];
+let menuSelections=[];
+let addedWeeks=0;
 
 function formatMoney(v){return new Intl.NumberFormat('fi-FI',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(v||0));}
 function formatNumber(v){return new Intl.NumberFormat('fi-FI',{minimumFractionDigits:0,maximumFractionDigits:2}).format(Number(v||0));}
@@ -116,12 +205,38 @@ function isMenuName(line){const txt=String(line||'').trim(); return !!txt && /co
 function isDayLine(line){return DAYS.includes(String(line||'').trim());}
 function splitIntoWeeks(raw){const lines=String(raw||'').split(/\r?\n/); const chunks=[]; let current=[]; for(let i=0;i<lines.length;i++){const line=String(lines[i]||'').trim(); const next=String(lines[i+1]||'').trim(); const start=line==='Monday'&&DATE_RE.test(next); if(start&&current.length){chunks.push(current.join('\n').trim()); current=[];} if(line||current.length) current.push(lines[i]);} if(current.length) chunks.push(current.join('\n').trim()); return chunks.filter(Boolean);} 
 function buildPeriod(weekDates){const dates=WORKDAYS.map(day=>weekDates[day]).filter(Boolean); return dates.length?`${dates[0]}${dates.length>1?' – '+dates[dates.length-1]:''}`:'';}
-function getVatRate(){return toNumber(document.getElementById('vatInput')?.value||14);} 
 function escapeHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+function addWeeklyMenu(){
+  const weekInput=document.getElementById('weekInput');
+  const source=document.getElementById('source');
+  const newWeek=(weekInput.value||'').trim();
+  if(!newWeek){ alert('Liitä ensin yhden viikon ruokalista.'); return; }
+  const existing=(source.value||'').trim();
+  source.value=existing ? `${existing}\n${newWeek}` : newWeek;
+  weekInput.value='';
+  addedWeeks += 1;
+  updateWeekCount();
+}
+
+function clearWeekInput(){
+  document.getElementById('weekInput').value='';
+}
+
+function clearSourceData(){
+  document.getElementById('source').value='';
+  addedWeeks=0;
+  updateWeekCount();
+}
+
+function updateWeekCount(){
+  document.getElementById('weekCountInfo').textContent=`Lisättyjä ruokalistoja: ${addedWeeks}`;
+}
 
 function parseScreenCopy(lines){
   const menus=[]; const weekDates={}; let i=0;
-  const clean=v=>String(v||'').trim(); const isQtyRow=v=>/\d/.test(String(v||'')) && /\t/.test(String(v||''));
+  const clean=v=>String(v||'').trim();
+  const isQtyRow=v=>/\d/.test(String(v||'')) && /\t/.test(String(v||''));
   while(i<lines.length){
     const line=clean(lines[i]); const next=clean(lines[i+1]);
     if(isDayLine(line)&&DATE_RE.test(next)){weekDates[line]=next;i+=2;continue;}
@@ -137,9 +252,16 @@ function parseScreenCopy(lines){
       if(isMenuName(itemLine)||itemLine==='Average per Week'||(isDayLine(itemLine)&&DATE_RE.test(clean(lines[i+1])))) break;
       const qtyRaw=String(lines[i+1]||''); const cosRaw=String(lines[i+2]||''); const pctRaw=String(lines[i+3]||'');
       if(!isQtyRow(qtyRaw)){i++;continue;}
-      const qtyParts=qtyRaw.split(/\t+/).map(s=>s.trim()).filter(Boolean); const cosParts=cosRaw.split(/\t+/).map(s=>s.trim()).filter(Boolean);
-      const gross=qtyParts.length?toNumber(qtyParts[0]):0; const qty=qtyParts.length?toNumber(qtyParts[qtyParts.length-1]):0; const cos=cosParts.length?toNumber(cosParts[0]):0;
-      const day=WORKDAYS[dayIndex]; menu.item=menu.item||itemLine; menu.days[day]={gross,qty,cos,date:weekDates[day]||''}; dayIndex++; i += pctRaw.includes('%') ? 4 : 3;
+      const qtyParts=qtyRaw.split(/\t+/).map(s=>s.trim()).filter(Boolean);
+      const cosParts=cosRaw.split(/\t+/).map(s=>s.trim()).filter(Boolean);
+      const gross=qtyParts.length?toNumber(qtyParts[0]):0;
+      const qty=qtyParts.length?toNumber(qtyParts[qtyParts.length-1]):0;
+      const cos=cosParts.length?toNumber(cosParts[0]):0;
+      const day=WORKDAYS[dayIndex];
+      menu.item=menu.item||itemLine;
+      menu.days[day]={gross,qty,cos,date:weekDates[day]||''};
+      dayIndex++;
+      i += pctRaw.includes('%') ? 4 : 3;
     }
     while(i<lines.length){const tail=clean(lines[i]); const tailNext=clean(lines[i+1]); if(!tail){i++;continue;} if(isMenuName(tail)||tail==='Average per Week'||(isDayLine(tail)&&DATE_RE.test(tailNext))) break; i++;}
     menus.push(menu);
@@ -147,7 +269,15 @@ function parseScreenCopy(lines){
   return {menus,weekDates};
 }
 
-function mergeMenusForSelection(weeks){const map=new Map(); weeks.forEach(week=>week.menus.forEach(menu=>{const key=String(menu.menu||'').trim(); if(!map.has(key)) map.set(key,{menu:menu.menu,item:menu.item,selected:/^lounas\s+[1234]/i.test(menu.menu)});})); return Array.from(map.values());}
+function mergeMenusForSelection(weeks){
+  const map=new Map();
+  weeks.forEach(week=>week.menus.forEach(menu=>{
+    const key=String(menu.menu||'').trim();
+    if(!map.has(key)) map.set(key,{menu:menu.menu,item:menu.item,selected:/^lounas\s+[1234]/i.test(menu.menu)});
+  }));
+  return Array.from(map.values());
+}
+
 function selectionMap(){return Object.fromEntries(menuSelections.map(menu=>[menu.menu,menu.selected]));}
 function getBreadQty(week, day){const bread=week.menus.find(m=>String(m.menu).trim().toLowerCase()==='leipäpöytä corp'); return bread ? (bread.days[day]?.qty || 0) : 0;}
 function dayIngredientCostAllActive(week, day){return week.menus.reduce((sum,menu)=>{const entry=menu.days[day]||{qty:0,cos:0}; return entry.qty>0 ? sum + (entry.qty*entry.cos) : sum;},0);}
@@ -155,7 +285,8 @@ function dayIngredientCostUnselected(week, day, selected){return week.menus.redu
 function daySelectedQty(week, day, selected){return week.menus.reduce((sum,menu)=>selected[menu.menu] ? sum + (menu.days[day]?.qty||0) : sum,0);}
 function hasAnyActiveMenu(week, day){return week.menus.some(menu=>(menu.days[day]?.qty||0)>0);} 
 
-function loadSample(){document.getElementById('source').value=`Monday
+function loadSample(){
+  document.getElementById('weekInput').value=`Monday
 3/23/2026
 Tuesday
 3/24/2026
@@ -277,19 +408,61 @@ Artesaanileipä
 0%	48%
 0.00	1000
 0.07	
-0%	48%`; parseSourceAndRender();}
-function clearAll(){document.getElementById('source').value=''; document.getElementById('vatInput').value='14'; parsedWeeks=[]; menuSelections=[]; ['menuList','section1Body','section2Body','section3Body'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';}); setSummary({weeks:0,s1c:0,s1b:0,s1a:0,s1d:0,s2c:0,s2q:0,s2a:0,s2d:0,s3c:0,s3b:0,s3a:0,s3d:0});}
-function parseSourceAndRender(){const chunks=splitIntoWeeks(document.getElementById('source').value); parsedWeeks=chunks.map((chunk,index)=>{const parsed=parseScreenCopy(chunk.split(/\r?\n/)); return {label:`Viikko ${index+1}`,period:buildPeriod(parsed.weekDates),weekDates:parsed.weekDates,menus:parsed.menus};}).filter(week=>week.menus.length>0); menuSelections=mergeMenusForSelection(parsedWeeks); renderMenuSelectors(); calculate();}
-function renderMenuSelectors(){const root=document.getElementById('menuList'); root.innerHTML=''; if(!menuSelections.length){root.innerHTML='<div class="small">Menuja ei löytynyt vielä.</div>'; return;} menuSelections.forEach((menu,idx)=>{const div=document.createElement('label'); div.className='menu-item'; div.innerHTML=`<input type="checkbox" ${menu.selected?'checked':''} onchange="toggleMenu(${idx}, this.checked)" /><span><strong>${escapeHtml(menu.menu)}</strong><br><span class="small">${escapeHtml(menu.item||'')}</span></span>`; root.appendChild(div);});}
-function toggleMenu(index,checked){menuSelections[index].selected=checked; calculate();} function setAllMenus(value){menuSelections.forEach(menu=>menu.selected=value); renderMenuSelectors(); calculate();} function setMainMenus(){menuSelections.forEach(menu=>menu.selected=/^lounas\s+[1234]/i.test(menu.menu)); renderMenuSelectors(); calculate();}
+0%	48%`;
+}
+
+function clearAll(){
+  document.getElementById('weekInput').value='';
+  document.getElementById('source').value='';
+  document.getElementById('vatInput').value='14';
+  parsedWeeks=[];
+  menuSelections=[];
+  addedWeeks=0;
+  updateWeekCount();
+  ['menuList','section1Body','section2Body','section3Body'].forEach(id=>{const el=document.getElementById(id); if(el) el.innerHTML='';});
+  setSummary({weeks:0,s1c:0,s1b:0,s1a:0,s1d:0,s2c:0,s2q:0,s2a:0,s2d:0,s3c:0,s3b:0,s3a:0,s3d:0});
+}
+
+function parseSourceAndRender(){
+  const chunks=splitIntoWeeks(document.getElementById('source').value);
+  parsedWeeks=chunks.map((chunk,index)=>{const parsed=parseScreenCopy(chunk.split(/\r?\n/)); return {label:`Viikko ${index+1}`,period:buildPeriod(parsed.weekDates),weekDates:parsed.weekDates,menus:parsed.menus};}).filter(week=>week.menus.length>0);
+  menuSelections=mergeMenusForSelection(parsedWeeks);
+  renderMenuSelectors();
+  calculate();
+}
+
+function renderMenuSelectors(){
+  const root=document.getElementById('menuList');
+  root.innerHTML='';
+  if(!menuSelections.length){root.innerHTML='<div class="small">Menuja ei löytynyt vielä.</div>'; return;}
+  menuSelections.forEach((menu,idx)=>{
+    const div=document.createElement('label');
+    div.className='menu-item';
+    div.innerHTML=`<input type="checkbox" ${menu.selected?'checked':''} onchange="toggleMenu(${idx}, this.checked)" /><span><strong>${escapeHtml(menu.menu)}</strong><br><span class="small">${escapeHtml(menu.item||'')}</span></span>`;
+    root.appendChild(div);
+  });
+}
+
+function toggleMenu(index,checked){menuSelections[index].selected=checked; calculate();}
+function setAllMenus(value){menuSelections.forEach(menu=>menu.selected=value); renderMenuSelectors(); calculate();}
+function setMainMenus(){menuSelections.forEach(menu=>menu.selected=/^lounas\s+[1234]/i.test(menu.menu)); renderMenuSelectors(); calculate();}
 
 function calculate(){
   const selected=selectionMap();
-  const s1Body=document.getElementById('section1Body'); const s2Body=document.getElementById('section2Body'); const s3Body=document.getElementById('section3Body');
+  const s1Body=document.getElementById('section1Body');
+  const s2Body=document.getElementById('section2Body');
+  const s3Body=document.getElementById('section3Body');
   s1Body.innerHTML=''; s2Body.innerHTML=''; s3Body.innerHTML='';
-  let s1Cost=0,s1Bread=0,s1Days=0,s2Cost=0,s2Qty=0,s2Days=0,s3Cost=0,s3Bread=0,s3Days=0;
+
+  let s1Cost=0,s1Bread=0,s1Days=0;
+  let s2Cost=0,s2Qty=0,s2Days=0;
+  let s3Cost=0,s3Bread=0,s3Days=0;
 
   parsedWeeks.forEach(week=>{
+    let week1Cost=0, week1Bread=0;
+    let week2Cost=0, week2Qty=0;
+    let week3Cost=0, week3Bread=0;
+
     WORKDAYS.forEach(day=>{
       if(!hasAnyActiveMenu(week,day)) return;
       const breadQty=getBreadQty(week,day);
@@ -303,6 +476,7 @@ function calculate(){
         tr1.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.weekDates?.[day]||'')}</td><td>${FIN_DAYS[day]}</td><td>${formatMoney(allCost)}</td><td>${formatNumber(breadQty)}</td><td>${formatMoney(avg1)}</td><td>Päivä</td>`;
         s1Body.appendChild(tr1);
         s1Cost+=allCost; s1Bread+=breadQty; s1Days+=1;
+        week1Cost+=allCost; week1Bread+=breadQty;
       }
 
       if(selectedQty>0){
@@ -311,6 +485,7 @@ function calculate(){
         tr2.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.weekDates?.[day]||'')}</td><td>${FIN_DAYS[day]}</td><td>${formatMoney(allCost)}</td><td>${formatNumber(selectedQty)}</td><td>${formatMoney(avg2)}</td><td>Päivä</td>`;
         s2Body.appendChild(tr2);
         s2Cost+=allCost; s2Qty+=selectedQty; s2Days+=1;
+        week2Cost+=allCost; week2Qty+=selectedQty;
       }
 
       if(breadQty>0 && unselectedCost>0){
@@ -319,20 +494,29 @@ function calculate(){
         tr3.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.weekDates?.[day]||'')}</td><td>${FIN_DAYS[day]}</td><td>${formatMoney(unselectedCost)}</td><td>${formatNumber(breadQty)}</td><td>${formatMoney(avg3)}</td><td>Päivä</td>`;
         s3Body.appendChild(tr3);
         s3Cost+=unselectedCost; s3Bread+=breadQty; s3Days+=1;
+        week3Cost+=unselectedCost; week3Bread+=breadQty;
       }
     });
 
-    const s1WeekAvg=s1Bread>0?s1Cost/s1Bread:0;
-    const s2WeekAvg=s2Qty>0?s2Cost/s2Qty:0;
-    const s3WeekAvg=s3Bread>0?s3Cost/s3Bread:0;
-    const w1=document.createElement('tr'); w1.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(week.menus.reduce((sum,m)=>sum+WORKDAYS.reduce((dSum,d)=>{const e=m.days[d]||{qty:0,cos:0}; return dSum + ((e.qty>0)?e.qty*e.cos:0);},0),0))}</td><td>${formatNumber(WORKDAYS.reduce((sum,d)=>sum+getBreadQty(week,d),0))}</td><td>${formatMoney(s1WeekAvg)}</td><td>Viikko</td>`; s1Body.appendChild(w1);
-    const w2=document.createElement('tr'); w2.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(week.menus.reduce((sum,m)=>sum+WORKDAYS.reduce((dSum,d)=>{const e=m.days[d]||{qty:0,cos:0}; return dSum + ((e.qty>0)?e.qty*e.cos:0);},0),0))}</td><td>${formatNumber(WORKDAYS.reduce((sum,d)=>sum+daySelectedQty(week,d,selected),0))}</td><td>${formatMoney(s2WeekAvg)}</td><td>Viikko</td>`; s2Body.appendChild(w2);
-    const weekUnselectedCost=WORKDAYS.reduce((sum,d)=>sum+dayIngredientCostUnselected(week,d,selected),0);
-    const weekBreadQty=WORKDAYS.reduce((sum,d)=>sum+getBreadQty(week,d),0);
-    const w3=document.createElement('tr'); w3.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(weekUnselectedCost)}</td><td>${formatNumber(weekBreadQty)}</td><td>${formatMoney(weekBreadQty>0?weekUnselectedCost/weekBreadQty:0)}</td><td>Viikko</td>`; s3Body.appendChild(w3);
+    const w1=document.createElement('tr');
+    w1.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(week1Cost)}</td><td>${formatNumber(week1Bread)}</td><td>${formatMoney(week1Bread>0?week1Cost/week1Bread:0)}</td><td>Viikko</td>`;
+    s1Body.appendChild(w1);
+
+    const w2=document.createElement('tr');
+    w2.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(week2Cost)}</td><td>${formatNumber(week2Qty)}</td><td>${formatMoney(week2Qty>0?week2Cost/week2Qty:0)}</td><td>Viikko</td>`;
+    s2Body.appendChild(w2);
+
+    const w3=document.createElement('tr');
+    w3.innerHTML=`<td>${escapeHtml(week.label)} – ${escapeHtml(week.period||'')}</td><td>Viikkoyhteenveto</td><td>${formatMoney(week3Cost)}</td><td>${formatNumber(week3Bread)}</td><td>${formatMoney(week3Bread>0?week3Cost/week3Bread:0)}</td><td>Viikko</td>`;
+    s3Body.appendChild(w3);
   });
 
-  setSummary({weeks:parsedWeeks.length,s1c:s1Cost,s1b:s1Bread,s1a:s1Bread>0?s1Cost/s1Bread:0,s1d:s1Days,s2c:s2Cost,s2q:s2Qty,s2a:s2Qty>0?s2Cost/s2Qty:0,s2d:s2Days,s3c:s3Cost,s3b:s3Bread,s3a:s3Bread>0?s3Cost/s3Bread:0,s3d:s3Days});
+  setSummary({
+    weeks:parsedWeeks.length,
+    s1c:s1Cost,s1b:s1Bread,s1a:s1Bread>0?s1Cost/s1Bread:0,s1d:s1Days,
+    s2c:s2Cost,s2q:s2Qty,s2a:s2Qty>0?s2Cost/s2Qty:0,s2d:s2Days,
+    s3c:s3Cost,s3b:s3Bread,s3a:s3Bread>0?s3Cost/s3Bread:0,s3d:s3Days
+  });
 }
 
 function setSummary(s){
@@ -340,24 +524,24 @@ function setSummary(s){
   document.getElementById('topSection1').textContent=formatMoney(s.s1a||0);
   document.getElementById('topSection2').textContent=formatMoney(s.s2a||0);
   document.getElementById('topSection3').textContent=formatMoney(s.s3a||0);
+
   document.getElementById('section1Cost').textContent=formatMoney(s.s1c||0);
   document.getElementById('section1BreadQty').textContent=formatNumber(s.s1b||0);
   document.getElementById('section1Avg').textContent=formatMoney(s.s1a||0);
   document.getElementById('section1Days').textContent=formatNumber(s.s1d||0);
+
   document.getElementById('section2Cost').textContent=formatMoney(s.s2c||0);
   document.getElementById('section2Qty').textContent=formatNumber(s.s2q||0);
   document.getElementById('section2Avg').textContent=formatMoney(s.s2a||0);
   document.getElementById('section2Days').textContent=formatNumber(s.s2d||0);
+
   document.getElementById('section3Cost').textContent=formatMoney(s.s3c||0);
   document.getElementById('section3BreadQty').textContent=formatNumber(s.s3b||0);
   document.getElementById('section3Avg').textContent=formatMoney(s.s3a||0);
   document.getElementById('section3Days').textContent=formatNumber(s.s3d||0);
 }
 
-loadSample();
+updateWeekCount();
 </script>
-  <script src="nav.js"></script>
 </body>
 </html>
-
-
